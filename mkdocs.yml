@@ -1,26 +1,22 @@
 site_name: VerificAAA — Guia de Acessibilidade
 site_description: Guia prático alinhado à WCAG 2.2, ABNT NBR 17225/17060 e Gov.br
-site_url: https://MarinaGaldi.github.io/IHC-2025.2-Grupo05
-repo_url: https://github.com/MarinaGaldi/IHC-2025.2-Grupo05
+site_url: https://unb-ihc.github.io/IHC-2025.2-Grupo05
+repo_url: https://github.com/UnB-IHC/IHC-2025.2-Grupo05
 repo_name: Grupo 05 • IHC 2025.2
 edit_uri: ""
 
 theme:
   name: material
   language: pt-BR
-  #logo: images/logo-verificaaa.png
-  #favicon: images/logo-verificaaa.png
   features:
     - navigation.tabs
     - navigation.top
     - navigation.sections
     - content.code.copy
-    - content.action.edit
     - toc.integrate
     - search.highlight
     - search.suggest
   palette:
-    # Claro
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: deep orange
@@ -28,7 +24,6 @@ theme:
       toggle:
         icon: material/weather-night
         name: Modo escuro
-    # Escuro
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: deep orange
@@ -36,11 +31,6 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Modo claro
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/SEU-USUARIO
-  copyright: "© 2025 Grupo 05 — IHC/UnB"
 
 plugins:
   - search
@@ -58,6 +48,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
 
 extra_css:
   - stylesheets/extra.css
