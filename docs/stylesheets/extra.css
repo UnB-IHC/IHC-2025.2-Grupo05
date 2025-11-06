@@ -1,3 +1,19 @@
-.wy-side-nav-search .wy-dropdown>a img.logo, .wy-side-nav-search>a img.logo {
-    width: 50% !important;
+/* Aumenta o contraste do foco */
+:focus-visible {
+  outline: 3px solid currentColor !important;
+  outline-offset: 2px;
+}
+
+/* Deixa o logo menor no topo, se precisar */
+.md-header__button.md-logo img { max-height: 1.75rem; }
+
+/* Centraliza título da home */
+.md-content__inner h1 {
+  text-align: center;
+  margin-top: .5rem;
+}
+
+/* Destaque em callouts */
+.admonition.tip, .admonition.note {
+  border-left-width: 6px;
 }

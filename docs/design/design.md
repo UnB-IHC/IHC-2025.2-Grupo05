@@ -1,55 +1,197 @@
-# Design
+# Design — Checklist V2.0
 
-"Existe uma lenda de que a acessibilidade torna um sítio web muito simples ou feio. Não é verdade: um sítio web bem estruturado pode ser bonito e criativo. É possível, inclusive, criar apresentações visuais diferentes para a mesma estrutura HTML de um sítio web com o uso de CSS e atender a diferentes necessidades". Dessa forma, nessa seção encontra-se checklist que garantam a acessibilidade no design.
+Este checklist cobre contraste, tipografia, foco, alvos de toque, movimento, reflow, feedback visual e drag & drop.  
+Baseado em **WCAG 2.2 (AA)**, **ABNT NBR 17225:2025** e boas práticas Gov.br.  
+> Marcação: **[NOVO]** (incluído na V2.0) • **[ATUALIZADO]** (ajustado por mudança de norma/entendimento).
 
-## Aparência
-- [ ] <b> Adicionar instrução</b> que não <b>dependa exclusivamente da cor</b>. <a id="TEC1" href="#RP1">[1]</a>
-- [ ] <b> Adicionar informação</b> (como gráficos e diagramas) que não <b>dependa exclusivamente da cor</b>. <a id="TEC1" href="#RP1">[1]</a>
-- [ ] <b> Tamanho do texto ajustável</b> para permitir ampliação. <a id="TEC2" href="#RP2">[2]</a>
-- [ ] <b> Descrever os controles</b> pelo nome, não apenas pela aparência ou localização. <a id="TEC3"href="#RP3">[3]</a>
-- [ ] <b> Garantir que dicas visuais</b> significativas atinjam 3:1 em relação ao fundo. <a id="TEC4" href="#RP4">[4]</a>
-- [ ] <b> Fazer com que as linhas</b> de texto se ajustem ao viewport. <a id="TEC5"href="#RP5">[5]</a>
-- [ ] Oferece uma <b> opção de alto contraste </b> (dark-mode) de suas páginas web e aumento de fontes.
-- [ ] Parágrafos com no <b> máximo 80 caracteres por linha </b>.
-- [ ] <b> Evita </b> o uso de <b> textos longos em caixa alta ou condensados </b>.
-- [ ] Evita o alinhamento justificado.
-- [ ] <b> Fontes são fluidas </b> e de fácil entendimento.
-- [ ] Toma o devido cuidado com <b>``` display:none ``` e ``` visibility:hidden ``` para os recursos de tecnologia assistiva</b>
-- [ ] Preferir <b> botões com texto e ícone </b>. E botões apenas com ícones tem o nome acessível.
+---
 
-## Animação
-- [ ] <b> Evitar conteúdo que pisque</b>, ou mantenha-o abaixo dos limites. <a id="TEC6" href="#RP6">[6]</a>
-- [ ] <b> Permitir que os usuários controlem as alterações de conteúdo</b> que ocorrem em paralelo com outro conteúdo. <a id="TEC7" href="#RP7">[7]</a>
-- [ ] <b> Toda a animação</b> deve obedecer à ```prefers-reduced-motion``` consulta de mídia. <a id="TEC8" href="#RP8">[8]</a>
+## 1) Contraste de Texto e Elementos Não Textuais
+- [ ] Texto normal com **contraste ≥ 4.5:1**; texto grande (≥ 18 pt regular ou 14 pt bold) **≥ 3:1**. [[1]](#ref-1)
+- [ ] **[ATUALIZADO]** Componentes de interface (bordas, ícones essenciais, controles) e **estados** (hover, focus, selected) com **contraste ≥ 3:1**. [[2]](#ref-2)
+- [ ] Informação **não depende só de cor** (use rótulo, padrão, ícone). [[3]](#ref-3)
 
-## Contraste de Cores
-- [ ] <b> Verificar o contraste</b> de  todo texto tamanho normal. <a id="TEC9" href="#RP9">[9]</a>
-- [ ] <b> Verificar o contraste</b> de todo texto tamanho grande. <a id="TEC9" href="#RP9">[9]</a>
-- [ ] <b> Verificar o contraste</b> de todos os ícones. <a id="TEC4" href="#RP4">[4]</a>
-- [ ] <b> Verificar o contraste</b> das bordas dos elementos de entrada (entrada de texto, botões de opção, caixas de seleção, etc.). <a id="#RP4" href="#RP4">[4]</a>
-- [ ] <b> Verificar o texto</b> que se sobrepõe a imagens ou vídeos. <a id="TEC9" href="#RP9">[9]</a>
-- [ ] <b> Verificar ```::selection``` cores</b> personalizadas. <a id="TEC9" href="#RP9">[9]</a>
+!!! success "Certo"
+    Botão primário com texto 4.8:1; campo com borda e label legíveis; estado “erro” com ícone + texto.
 
-## Referências Bibliograficas
+!!! failure "Errado"
+    Placeholder 2:1; ícone de ação sem contraste; status “vermelho/verde” sem texto.
 
-> <a id="RP1" href="#TEC1">1.</a> WCAG 2.2 Understanding Docs. SC 1.4.1 Use of Color (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html). Acesso em: 9 Mai. 2024.
+---
 
-> <a id="RP2" href="#TEC2">2.</a> WCAG 2.2 Understanding Docs. SC 1.4.4 Resize Text (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html). Acesso em: 9 Mai. 2024.
+## 2) Tipografia e Hierarquia Visual
+- [ ] Títulos seguem hierarquia (`h1` → `h2` → `h3`) sem saltos artificiais. [[4]](#ref-4)
+- [ ] Tamanho base legível (~16px) e **line-height** adequado (1.4–1.6). [[4]](#ref-4)
+- [ ] Links distinguíveis (não apenas cor; sublinhado/estilo consistente). [[3]](#ref-3)
+- [ ] Espaçamento e alinhamento favorecem leitura e escaneabilidade. [[5]](#ref-5)
 
-> <a id="RP3" href="#TEC3">3.</a> WCAG 2.2 Understanding Docs. SC 1.3.3 Sensory Characteristics (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html](https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    h1/h2/h3 em ordem; links sublinhados; parágrafos 16–18px com 1.5 de altura de linha.
 
-> <a id="RP4" href="#TEC4">4.</a> WCAG 2.2 Understanding Docs. SC 1.4.11 Non-text Contrast (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    h3 direto após h1; link apenas levemente azulado; blocos densos sem respiro.
 
-> <a id="RP5" href="#TEC5">5.</a> WCAG 2.2 Understanding Docs. SC 1.4.10 Reflow (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/reflow.html](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html). Acesso em: 9 Mai. 2024.
+- [ ] **[NOVO]** Evitar **texto justificado**; usar alinhamento à esquerda para blocos longos. [[17]](#ref-17)
+- [ ] **[NOVO]** Evitar **maiúsculas contínuas** e **fontes muito condensadas** em textos longos. [[17]](#ref-17)
+- [ ] **[NOVO]** O usuário pode **ajustar espaçamentos** (linhas, parágrafos, palavras, letras) **sem perda** de funcionalidade/leitura. [[18]](#ref-18)
 
-> <a id="RP6" href="#TEC6">6.</a> WCAG 2.2 Understanding Docs. SC 2.3.1 Three Flashes or Below Threshold (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    Texto alinhado à esquerda, com espaçamento ajustável mantendo a legibilidade.
 
-> <a id="RP7" href="#TEC7">7.</a> WCAG 2.2.2 Understanding Docs. SC 2.2.2 Pause, Stop, Hide (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Parágrafos justificados criando “rios” de espaços; título todo em CAIXA ALTA.
 
-> <a id="RP8" href="#TEC8">8.</a> WCAG 2.2 Understanding Docs. SC 2.3.3 Animation from Interactions (Level AAA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html). Acesso em: 9 Mai. 2024.
+---
 
-> <a id="RP9" href="#TEC9">9.</a> WCAG 2.2 Understanding Docs. SC 1.4.3 Contrast (Minimum) (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html). Acesso em: 9 Mai. 2024.
+## 3) Foco Visível e **Não Obscurecido**
+- [ ] **[ATUALIZADO]** **Foco sempre visível**, com indicador perceptível (espessura/contraste). [[6]](#ref-6)
+- [ ] **[NOVO]** Foco **não fica atrás** de cabeçalhos/banners “sticky” (use `scroll-margin-top`/offset). [[7]](#ref-7)
 
-## Bibliografia
+!!! success "Certo"
+    Outline espesso e contrastado; ao usar “Ir para conteúdo”, o h1 não fica sob o header fixo.
 
-> </a> DINIZ, V.; FERRAZ, R.; NASCIMENTO, C. M.; CREDIDIO, R. Guia de Boas Práticas para Acessibilidade Digital. Programa de Cooperação entre Reino Unido e Brasil em Acesso Digital, 2023. Disponível em: [https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital/guiaboaspraaticasparaacessibilidadedigital.pdf](https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital/guiaboaspraaticasparaacessibilidadedigital.pdf). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Foco 1px cinza quase invisível; foco escondido atrás do cabeçalho.
+
+> *Plus (recomendado):* **Aparência do foco AAA** (2.4.13) — indicador amplo e evidente. [[8]](#ref-8)
+
+---
+
+## 4) Alvos de Toque e Espaçamento
+- [ ] **[NOVO]** Considera **2.5.8 Tamanho do alvo (AA)**, mantendo **área útil + espaçamento**. [[10]](#ref-10)
+- [ ] **[ATUALIZADO]** Alvos tocáveis têm **área confortável** e **espaçamento** seguro (ex.: referência prática de **24×24px CSS** quando aplicável). [[10]](#ref-10) [[17]](#ref-17)
+
+!!! success "Certo"
+    Ícones/botões com área generosa e espaço entre si; listas clicáveis com padding vertical.
+
+!!! failure "Errado"
+    Links minúsculos colados; ícones de 12px sem área clicável extra.
+
+---
+
+## 5) Animações, Movimento e Preferências do Usuário
+- [ ] Respeita **`prefers-reduced-motion`** para reduzir/evitar animações intensas. [[11]](#ref-11)
+- [ ] **[NOVO]** Respeita **`prefers-contrast`** e **`color-scheme`** (claro/escuro) do sistema. [[12]](#ref-12)
+- [ ] Evita efeitos que causem desconforto; se usar, disponibiliza **controle** e redução. [[11]](#ref-11)
+
+!!! success "Certo"
+    Transições suaves são reduzidas com `prefers-reduced-motion`; tema acompanha o SO.
+
+!!! failure "Errado"
+    Animações incessantes sem opção; “modo alto contraste” isolado que conflita com preferências do usuário.
+
+## 6) Movimento, Flash e Atualizações Automáticas
+
+- [ ] **[NOVO]** Evitar conteúdo que **pisca mais de 3 vezes por segundo** (ou garantir que fique abaixo do limite seguro). [[22]](#ref-22)
+- [ ] **[NOVO]** Conteúdos que **movem/rolam/atualizam automaticamente** oferecem **Pausar / Parar / Ocultar**. [[23]](#ref-23)
+
+!!! success "Certo"
+    Carrossel com botões de pausar/anterior/próximo; ticker com opção de parar.
+
+!!! failure "Errado"
+    Carrossel automático sem controle; banner piscando repetidamente.
+
+---
+
+## 7) Layout Responsivo e Reflow
+- [ ] Reflow sem perda de conteúdo/funcionalidade (zoom + responsividade). [[13]](#ref-13)
+- [ ] Tabelas e cards mantêm leitura (colunas colapsáveis ou scroll acessível). [[13]](#ref-13)
+- [ ] Evita rolagem **bidimensional** desnecessária. [[13]](#ref-13)
+
+!!! success "Certo"
+    Grid responsivo; tabelas com colunas colapsáveis; conteúdo não salta ao focar.
+
+!!! failure "Errado"
+    Texto “vaza” da tela; truncamento crítico sem alternativa.
+
+---
+
+## 8) Estados, Mensagens e Feedback Visuais
+- [ ] Estados (hover/focus/active/disabled/error/success) têm **diferença perceptível** (não só cor). [[3]](#ref-3)
+- [ ] Erros/ajuda são **claros** e próximos ao componente; ícones com rótulo/ou ajuda. [[5]](#ref-5)
+
+!!! success "Certo"
+    Campo com erro exibe texto “CPF inválido” + ícone; hover muda cor e sublinhado.
+
+!!! failure "Errado"
+    Apenas borda vermelha sem texto; ícone “info” sem contexto.
+
+---
+
+## 9) Instruções e Conteúdo Ativado por Hover/Foco
+
+- [ ] **[NOVO]** Instruções **não dependem** de características sensoriais (forma, cor, posição). [[19]](#ref-19)
+- [ ] **[NOVO]** Conteúdo que aparece em **hover/foco** pode ser **dispensado**, não obscurece outros elementos e permanece enquanto o foco estiver sobre ele. [[20]](#ref-20)
+- [ ] **[NOVO]** Evitar esconder informações relevantes de tecnologias assistivas com `display:none`/`visibility:hidden` de forma indevida. [[21]](#ref-21)
+
+!!! success "Certo"
+    “Selecione o botão **Avançar**” (texto claro); tooltip que pode ser dispensada sem cobrir o campo.
+
+!!! failure "Errado"
+    “Clique no **botão redondo à direita**”; tooltip que cobre o formulário e some ao tentar interagir.
+
+---
+
+## 10) Drag & Drop com Alternativa
+- [ ] **[NOVO]** Toda interação de **arrastar e soltar** tem **alternativa por clique/teclado**. [[14]](#ref-14)
+
+!!! success "Certo"
+    Lista ordenável com botões “mover para cima/baixo”; upload com “Escolher arquivo”.
+
+!!! failure "Errado"
+    Única forma de reordenar é arrastando.
+
+---
+
+## 11) Componentes Padrão e Semântica Visual
+- [ ] Preferir **componentes nativos/semânticos** estilizados (botão, link, input). [[15]](#ref-15)
+- [ ] Ícones/textos de ação com propósito evidente; tooltip como apoio (não substitui rótulo quando necessário). [[15]](#ref-15)
+
+!!! success "Certo"
+    `<button>` estilizado para ação; `<a>` para navegação; ícone com label claro.
+
+!!! failure "Errado"
+    `div` com `onclick` fazendo papel de botão sem estilos/estados.
+
+---
+
+## O que **remover/ajustar** (comparado ao pocket antigo)
+
+- **Accesskey** como recomendação geral → **[ATUALIZADO]**: preferir **skip-link + landmarks + headings**; se usar, documente e evite conflitos com atalhos do navegador/SO. [[5]](#ref-5) [[15]](#ref-15)  
+- [ ] **[ATUALIZADO]** Em vez de um “modo” isolado, o site **respeita `prefers-contrast` e `color-scheme`** (claro/escuro) e já nasce com **contraste adequado** por padrão. [[12]](#ref-12) [[17]](#ref-17)
+- **SC 4.1.1 (Parsing)** tratado como critério normativo → **[ATUALIZADO]**: considerar apenas **boa prática** (validar HTML/CSS); o SC foi removido na **WCAG 2.2**. [[16]](#ref-16)
+
+---
+
+### Notas rápidas de implementação
+- Indicador de foco: outline perceptível (espessura/contraste).  
+- Cabeçalho fixo: `scroll-margin-top` nos alvos de âncora/elementos focáveis.  
+- Tokens de design: padronizar cores/estados/espaçamentos para garantir contraste e consistência.
+
+---
+
+## Referências
+
+<a id="ref-1"></a>[1] WCAG 2.2 — SC 1.4.3 (Contraste mínimo – texto)  
+<a id="ref-2"></a>[2] WCAG 2.2 — SC 1.4.11 (Contraste não textual)  
+<a id="ref-3"></a>[3] WCAG 2.2 — Uso de cor / Links distinguíveis / 3.3.* Mensagens (WAI – boas práticas)  
+<a id="ref-4"></a>[4] WCAG 2.2 — 2.4.* (Navegabilidade/Hierarquia), boas práticas de legibilidade (WAI)  
+<a id="ref-5"></a>[5] Guia Gov.br de Boas Práticas de Acessibilidade (conteúdo, links, comunicação clara)  
+<a id="ref-6"></a>[6] WCAG 2.2 — SC 2.4.7 (Foco visível)  
+<a id="ref-7"></a>[7] WCAG 2.2 — SC 2.4.11 / 2.4.12 (Foco não obscurecido)  
+<a id="ref-8"></a>[8] WCAG 2.2 — SC 2.4.13 (Aparência do foco – AAA, recomendado)  
+<a id="ref-9"></a>[9] NBR 17225:2025 — Diretrizes visuais/UX; princípios de ergonomia e usabilidade  
+<a id="ref-10"></a>[10] WCAG 2.2 — SC 2.5.8 (Tamanho do alvo – AA)  
+<a id="ref-11"></a>[11] WCAG 2.2 — 2.3.* (Animação/movimento); `prefers-reduced-motion`  
+<a id="ref-12"></a>[12] WAI / CSS Media Queries — `prefers-contrast` e `color-scheme` (tema claro/escuro)  
+<a id="ref-13"></a>[13] WCAG 2.2 — SC 1.4.10 (Reflow) e 1.4.4 (Resize text)  
+<a id="ref-14"></a>[14] WCAG 2.2 — SC 2.5.7 (Movimentos de arrastar – alternativa por clique/teclado)  
+<a id="ref-15"></a>[15] WAI-ARIA Authoring Practices — semântica e padrões de interação acessível  
+<a id="ref-16"></a>[16] Mudanças da WCAG 2.2 — remoção do SC 4.1.1 (Parsing)
+<a id="ref-17"></a>[17] Itens práticos da página “Design” do Grupo 09 (estrutura e exemplos de tipografia/contraste/alvos).  
+<a id="ref-18"></a>[18] WCAG 2.2 — SC 1.4.12 (Text Spacing).  
+<a id="ref-19"></a>[19] WCAG 2.2 — SC 1.3.3 (Sensory Characteristics).  
+<a id="ref-20"></a>[20] WCAG 2.2 — SC 1.4.13 (Content on Hover or Focus).  
+<a id="ref-21"></a>[21] WAI-ARIA / Boas práticas — visibilidade e disponibilidade de informação para TA.  
+<a id="ref-22"></a>[22] WCAG 2.2 — SC 2.3.1 (Three Flashes or Below Threshold).  
+<a id="ref-23"></a>[23] WCAG 2.2 — SC 2.2.2 (Pause, Stop, Hide).

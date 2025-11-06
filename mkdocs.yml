@@ -1,41 +1,76 @@
-repo_url: https://github.com/vitorfleonardo/VerificAAA
-repo_name: VerificAAA
-
-site_url: https://github.com/vitorfleonardo/VerificAAA
-site_name: VerificAAA
-
-use_directory_urls: False
-
-nav:
-  - Início - VerificAAA: 'index.md'
-
-  - Desenvolvimento Web:
-    - Desenvolvimento: 'devWeb/non_text_content.md'
-
-  - Design:
-    - Design: 'design/design.md'
-  
-  - Geração de Conteúdo:
-    - Conteúdo: 'geracaoConteudo/conteudo.md'
-
-  - Gestão de Projetos:
-    - Gestão de Projetos: 'gestaoProjeto/gestaoProjeto.md'
-
-  - Ferramentas:
-    - Ferramentas de Acessibilidade: 'tools/ferramentas.md'
+site_name: VerificAAA — Guia de Acessibilidade
+site_description: Guia prático alinhado à WCAG 2.2, ABNT NBR 17225/17060 e Gov.br
+site_url: https://MarinaGaldi.github.io/IHC-2025.2-Grupo05
+repo_url: https://github.com/MarinaGaldi/IHC-2025.2-Grupo05
+repo_name: Grupo 05 • IHC 2025.2
+edit_uri: ""
 
 theme:
-  name: readthedocs
-  locale: pt_BR
-  titles_only: true
-  logo: imagens/logo-verificaaa.png
-  favicon: imagens/logo-verificaaa.png
+  name: material
+  language: pt-BR
+  #logo: images/logo-verificaaa.png
+  #favicon: images/logo-verificaaa.png
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.sections
+    - content.code.copy
+    - content.action.edit
+    - toc.integrate
+    - search.highlight
+    - search.suggest
+  palette:
+    # Claro
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Modo escuro
+    # Escuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/SEU-USUARIO
+  copyright: "© 2025 Grupo 05 — IHC/UnB"
+
+plugins:
+  - search
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - footnotes
   - def_list
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
   - pymdownx.tasklist:
-      custom_checkbox: false
-      clickable_checkbox: true
+      custom_checkbox: true
 
 extra_css:
   - stylesheets/extra.css
+
+nav:
+  - Início: index.md
+  - Design:
+      - Checklist (Design): design/design.md
+  - Desenvolvimento Web:
+      - Checklist (Dev): devWeb/non_text_content.md
+  - Conteúdo:
+      - Checklist (Conteúdo): geracaoConteudo/conteudo.md
+  - Gestão do Projeto:
+      - Checklist (Gestão): gestaoProjeto/gestaoProjeto.md
+  - Ferramentas:
+      - Guia de ferramentas: tools/ferramentas.md

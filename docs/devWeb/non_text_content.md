@@ -1,131 +1,226 @@
-# Desenvolvimento
+# Desenvolvimento Web — Checklist V2.0
 
-"Nessa fase, é importante garantir que a equipe de desenvolvimento saiba como implementar acessibilidade, verificá-la e usar as ferramentas disponíveis no mercado para
-testes e padronizações. Também é importante que a equipe saiba como as pessoas com deficiência usam os sítios web e aplicativos". Nesse caso, foram incluídas técnicas relacionadas ao desenvolvimento e também formas de verificar.
+Práticas de implementação para HTML, ARIA, formulários, navegação por teclado, foco, autenticação e padrões de interação.  
+Baseado em **WCAG 2.2 (AA)**, **ABNT NBR 17225:2025** e WAI-ARIA Authoring Practices.  
+> Marcação: **[NOVO]** (incluído na V2.0) • **[ATUALIZADO]** (ajustado por mudança de norma/entendimento).
 
-## Imagens
-- [x] <b> Adicionar ``` alt ``` </b> para imagens, botões-imagem, gráficos e imagens de mapas com pontos de acesso. <a id="TEC1" href="#RP1">[1]</a>
-- [ ] <b> Adicionar ``` alt="" ``` </b> para imagens decorativas que não tem significado. <a id="TEC1" href="#RP1">[1]</a>
-- [ ] <b> Incluir a descrição no ``` alt ```</b> para imagens que contém texto. <a id="TEC1" href="#RP1">[1]</a>
+---
 
-## Vídeos
-- [ ] <b> Adicionar legendas</b> para áudio em vídeos existentes. <a id="TEC2" href="#RP2">[2]</a>
-- [x] <b> Evitar conteúdo com <i>flashes</i> (gatilhos para convulsões)</b> ou manter abaixo dos limites. <a id="TEC3" href="#RP3">[3]</a>
+## 1) Semântica, Estrutura e Navegação
+- [ ] Documento tem **um `<h1>`** descritivo e hierarquia correta (`h2`/`h3`...). [[1]](#ref-1)
+- [ ] Uso de **landmarks**: `<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>` (um `<main>` por página). [[2]](#ref-2)
+- [ ] **Links** são `<a>` (navegação) e **ações** são `<button>` (evento). [[3]](#ref-3)
+- [ ] Elementos interativos **não são** `div/span` com `onclick` sem papéis/teclado. [[3]](#ref-3)
 
-## Controles
-- [x] <b> Adicionar ``` href ```</b> para links. <a id="TEC4" href="#RP4">[4]</a>
-- [x] <b> Adicionar underline</b> nos links. <a id="TEC5" href="#RP5">[5]</a>
-- [x] <b> Adicionar estados de foco</b> em campos de entrada, botões, e elementos interativos. <a id="TEC6" href="#RP6">[6]</a>
-- [x] <b> Adicionar ```type="button"```</b> nos botões. <a id="TEC4" href="#RP4">[4]</a>
-- [x] <b> Adicionar skip-link </b> (link para pular) para o conteúdo principal. <a id="TEC7" href="#RP7">[7]</a>
-- [x] <b> Identifique e comunique </b> links que abrem em uma nova guia ou janela. <a id="TEC8" href="#RP8">[8]</a>
+!!! success "Certo"
+    Navegação com `<nav>` e links; botão de abrir modal em `<button>` com `aria-expanded`.
 
-## Formulário
-- [x] <b> Adicionar ``` label ```</b> para os campos de entradas associadas ao elemento correspondente. <a id="TEC9" href="#RP9">[9]</a>
-- [ ] <b> Adicionar ``` <fildset> ``` e ``` <legend> ```</b> para seção no formulário. <a id="TEC4" href="#RP4">[4]</a>
-- [x] <b> Adicionar ``` autocomplete ```</b> para campos de entrada. <a id="TEC10" href="#RP10">[10]</a>
-- [ ] <b> Exibir ``` errors ``` </b> (erros) de entrada acima do formulário, após envio. <a id="TEC11" href="#RP11">[11]</a>
-- [x] <b> Adicionar ``` aria-describedby ```</b> para os campos de entrada. <a id="TEC11" href="#RP11">[11]</a>
-- [ ] <b> Exibir mensagens de erro e sucesso</b> não só visualmente. <a id="TEC5" href="#RP5">[5]</a>
+!!! failure "Errado"
+    `div` com `onclick` para navegar; múltiplos `<main>`; títulos pulando níveis.
 
-## Mídia
-- [x] <b> Impedir ``` autoplay ```</b> para vídeos e audios. <a id="TEC12" href="#RP12">[12]</a>
-- [ ] <b> Adicionar ``` type ```</b> para botões e entradas. <a id="TEC4" href="#RP4">[4]</a>
-- [x] <b> Adicionar pausa </b> para todas as mídias. <a id="TEC13" href="#RP13">[13]</a>
-- [x] <b> Adicionar transcrição </b> para audios. <a id="TEC1" href="#RP1">[1]</a>
+- [ ] **[NOVO]** Em **tabelas de dados**, usar `<th>` e `scope` apropriado (col/row); quando útil, fornecer `<caption>` descritivo. [[A1]](#ref-a1)
+- [ ] **[NOVO]** **Links que abrem em nova aba/janela** informam claramente o usuário no texto ou por rótulo acessível. [[A2]](#ref-a2)
 
-## Semântica
-- [x] Uso de elementos <b>nativos HTML</b>. 
-- [x] Fluxo continuo e <b>Lógico</b>. 
-- [x] Tem <b>descrições</b> que podem ser <b>facilmente compreendidas</b>. 
-- [x] Tem a <b>semântica correta</b>. 
-- [x] É <b>objetivo</b> nos <b>rótulos</b>. 
+!!! success "Certo"
+    `<th scope="col">Preço</th>`; `<caption>Tabela de tarifas 2025</caption>`  
+    “Relatório Anual **(abre em nova aba)**”
 
-## Texto
-- [ ] <b>Evitar</b> o uso de <b>textos dentro de imagens</b>. 
-- [x] <b>Redimensiona os textos na página</b>, aumentando o zoom em até 200%. 
-- [x] <b>Alturas </b> das fontes <b> não é fixa </b>. 
+!!! failure "Errado"
+    Tabela só com `<td>`; link que abre nova aba sem aviso.
 
-## Teclado
-- [ ] <b> Funcionalidades </b> da página web estão <b> disponíveis por teclado </b>. 
-- [ ] Quando se tem o <b>mouseover é permitido o uso de teclado </b>. 
-- [ ] <b>Foco visível</b> remova elementos focalizáveis ​​invisíveis. 
-- [ ] Adicione o <b> ``` .hover, .focus { } ```</b>  para tornar o foco visível. 
-- [ ] Permite/visa o uso de <b> Atalhos de teclado </b> como o ```TAB```. 
-- [ ] <b> Primeiro </b> item interativo da página é um link para o <b> conteúdo principal </b>. 
+---
 
-## Título
-- [ ] A <b>hierarquia</b> de conteúdo da página é definida por sua <b>lógica</b> não pelo tamanaho do texto. <a id="TEC17" href="#RP17">[17]</a>
-- [ ] Use <b>elementos de título  ``` h1 h2 h3 ```</b> para apresentar o conteúdo.<a id="TEC17" href="#RP17">[17]</a>
-- [ ] <b>Não pular níveis lógicos</b>.
-- [ ] <b>Toda página contem um título  ``` h1 ```</b> descrevendo a página. <a id="TEC17" href="#RP17">[17]</a></b><a id="TEC19" href="#RP19">[19]</a>
+## 2) Teclado, Ordens e Armadilhas
+- [ ] Toda funcionalidade é **operável por teclado** (Tab/Shift+Tab/Enter/Espaço/Setas). [[4]](#ref-4)
+- [ ] **Sem armadilha de teclado** (é possível sair de modais/menus por Tab/ESC). [[5]](#ref-5)
+- [ ] **Ordem de foco** segue a ordem visual e lógica do conteúdo. [[6]](#ref-6)
+- [ ] **Skip link** para “Ir ao conteúdo principal” no topo. [[2]](#ref-2)
 
-## Tabela
-- [ ] <b> Use o ``` table ``` </b> para elementos em formato de tabela.  <a id="TEC4" href="#RP4">[4]</a>
-- [ ] Insira cabeçalhos para explicar os dados, <b>use ``` th ``` com  ``` scope ``` correto</b>.<a id="TEC15" href="#RP15">[15]</a>
-- [ ] <b> Use o ``` captione ``` </b> lemento para fornecer um título para a tabela.<a id="TEC17" href="#RP17">[17]</a>
+!!! success "Certo"
+    Modal prende foco dentro e devolve ao botão que o abriu ao fechar.
 
-## Modais
-- [ ] Deve ser <b> fácil fechar </b>.<a id="TEC19" href="#RP19">[19]</a>
-- [ ] Permiti o <b> uso da tecla escape ``` ESC ```</b>.</b><a id="TEC19" href="#RP19">[19]</a>
-- [ ] A interação é  uma <b> tarefa simples</b>.</b><a id="TEC19" href="#RP19">[19]</a>
-- [ ] <b> Evita </b> modais em <b> tela cheia </b>.</b><a id="TEC19" href="#RP19">[19]</a>
-- [ ] <b> Não abrir um modal a partir de outro modal </b>.</b><a id="TEC19" href="#RP19">[19]</a>
+!!! failure "Errado"
+    Componente acessível só por mouse; foco some atrás de cabeçalho fixo.
 
-## Dispositivo Móvel e tocável
-- [ ] O site pode ser <b> rotacionado </b> para qualquer orientação.  <a id="TEC15" href="#RP15">[15]</a>
-- [ ] <b> Impedir </b> rolgem horizontal. <a id="TEC16" href="#RP15">[16]</a>
-- [ ] <b> Garantir </b> que botões e links possam ser ativados facilmente. <a id="TEC18" href="#RP18">[18]</a>
-- [ ] <b> Garantir </b> espaço suficiente entre elementos interativos. <a id="TEC7" href="#RP7">[7]</a>
+---
 
-## Ferramentas e extras
-- [ ] Permiti <b> pausar, parar ou ocultar conteúdo em movimento </b>.
-- [ ] Usar <b> Breadcrumbs </b> informando a localização atual nas páginas.
-- [ ] Colocar página ou <b> área de esclarecimento de dúvidas e dicas de acessibilidade </b>.
-- [ ] Áreas clicáveis com no mínimo <b> 44px (pixels) de altura e 44px de largura </b>.
-- [ ] No caso de <b>captcha</b> garanta que seja simples de entender e tenha alternativas para pessoas com deficiência.
-- [ ] Incluir um <b> campo de busca </b>.
+## 3) Formulários: Rótulos, Ajuda e Erros
+- [ ] Todo **input** tem **`<label>` visível** ou nome acessível (`aria-label/aria-labelledby`). [[7]](#ref-7)
+- [ ] Mensagens de erro são **próximas** ao campo, com **texto claro** e relação por `aria-describedby`. [[8]](#ref-8)
+- [ ] **Sugestões** (SC 3.3.3) e **prevenção de erro** (3.3.4) em transações importantes (financeiras/legais). [[9]](#ref-9)
+- [ ] **Propósito de entrada** (autocompletes) para dados pessoais/conta (SC 1.3.5). [[10]](#ref-10)
+- [ ] **[NOVO]** **Agrupar campos relacionados** (ex.: múltiplos checkboxes/radios) com `<fieldset>` e `<legend>` para indicar relação semântica. [[A1]](#ref-a1)
 
-## Referência Bibliográfica
 
-> <a id="RP1" href="#TEC1">1.</a> WCAG 2.2 Understanding Docs. SC 1.1.1 Non-text Content (Level A) . Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    `<label for="cpf">CPF</label>` + erro “CPF inválido” ligado ao input via `aria-describedby="cpf-erro"`.
 
-> <a id="RP2" href="#TEC2">2.</a> WCAG 2.2 Understanding Docs. SC 1.2.2 Captions (Prerecorded) (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Placeholder como “label”; erro só com borda vermelha sem texto.
 
-> <a id="RP3" href="#TEC3">3.</a> WCAG 2.2 Understanding Docs. SC 2.3.1 Three Flashes or Below Threshold (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html). Acesso em: 9 Mai. 2024.
+---
 
-> <a id="RP4" href="#TEC4">4.</a> WCAG 2.2 Understanding Docs. SC 1.3.1 Info and Relationships (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html). Acesso em: 9 Mai. 2024.
+## 4) Mensagens de Status e Live Regions
+- [ ] Mudanças dinâmicas relevantes usam **ARIA live** (`role="status"`, `aria-live="polite/assertive"`). [[11]](#ref-11)
+- [ ] Mensagens não movem foco **sem necessidade** e são anunciadas por leitores de tela. [[11]](#ref-11)
 
-> <a id="RP5" href="#TEC5">5.</a> WCAG 2.2 Understanding Docs. SC 1.4.1 Use of Color (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    “Item adicionado ao carrinho” em `role="status"`.
 
-> <a id="RP6" href="#TEC6">6.</a> WCAG 2.2 Understanding Docs. SC 2.4.7 Focus Visible (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Snackbar surge fora de foco e não é lido; atualização silenciosa de erro.
 
-> <a id="RP7" href="#TEC7">7.</a> WCAG 2.2 Understanding Docs. SC 2.4.1 Bypass Blocks (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html](https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html). Acesso em: 9 Mai. 2024.
+- [ ] **[NOVO]** **Áudio automático** com duração > 3 s oferece **pausar/parar** ou controle de **volume**. [[A3]](#ref-a3)
 
-> <a id="RP8" href="#TEC8">8.</a> WCAG 2.2 Understanding Docs. G201 Giving users advanced warning when opening a new window. Disponível em: [https://www.w3.org/WAI/WCAG22/Techniques/general/G201](https://www.w3.org/WAI/WCAG22/Techniques/general/G201). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    Player com botão de pausar; controle de volume disponível.
 
-> <a id="RP9" href="#TEC9">9.</a> WCAG 2.2 Understanding Docs. SC 3.2.2 On Input (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/on-input.html](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Áudio que toca sozinho sem controle algum.
 
-> <a id="RP10" href="#TEC10">10.</a> WCAG 2.2 Understanding Docs. SC 1.3.5 Identify Input Purpose (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html](https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html). Acesso em: 9 Mai. 2024.
+---
 
-> <a id="RP11" href="#TEC11">11.</a> WCAG 2.2 Understanding Docs. SC 3.3.1 Error Identification (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html). Acesso em: 9 Mai. 2024.
+## 5) Autenticação Acessível **[NOVO]**
+- [ ] Permite **colar** senhas/códigos; funciona com **gerenciadores de senha**. [[12]](#ref-12)
+- [ ] Oferece alternativa a **desafios cognitivos** (link mágico, gestor do SO/biometria quando aplicável). [[12]](#ref-12)
+- [ ] Não exige **memorização** como única via de login. [[12]](#ref-12)
 
-> <a id="RP12" href="#TEC12">12.</a> WCAG 2.2 Understanding Docs. SC 1.4.2 Audio Control (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html](https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    2FA por app/código; “Entrar por e-mail (link mágico)”.
 
-> <a id="RP13" href="#TEC13">13.</a> WCAG 2.2 Understanding Docs. SC 2.1.1 Keyboard (Level A). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Bloquear “colar” no input; CAPTCHA sem alternativa acessível.
 
-> <a id="RP14" href="#TEC14">14.</a> WCAG 2.2 Understanding Docs. SC 1.3.4 Orientation (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/orientation.html](https://www.w3.org/WAI/WCAG22/Understanding/orientation.html). Acesso em: 9 Mai. 2024.
+---
 
-> <a id="RP15" href="#TEC15">15.</a> WCAG 2.2 Understanding Docs. SC 4.1.1 Orientation (Level). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/parsing.html](https://www.w3.org/WAI/WCAG22/Understanding/parsing.html). Acesso em: 9 Mai. 2024.
+## 6) Entrada Redundante **[NOVO]**
+- [ ] Não **repetir** dados já informados; **pré-preencher** quando possível e seguro. [[13]](#ref-13)
 
-> <a id="RP16" href="#TEC16">16.</a> WCAG 2.2 Understanding Docs. SC 1.4.10 Reflow (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/reflow.html](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html). Acesso em: 9 Mai. 2024.
+!!! success "Certo"
+    Endereço digitado na etapa 1 já aparece na etapa 2 para conferência.
 
-> <a id="RP17" href="#TEC17">17.</a> WCAG 2.2 Understanding SC 2.4.6 Headings and Labels (Level AA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html](https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html). Acesso em: 9 Mai. 2024.
+!!! failure "Errado"
+    Exigir redigitar CPF/endereço sem motivo.
 
-> <a id="RP18" href="#TEC18">18.</a> WCAG 2.2 Understanding Docs. SC 2.5.5 Target Size (Enhanced) (Level AAA). Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html). Acesso em: 9 Mai. 2024.
+- [ ] **[NOVO]** **Orientação do dispositivo** (retrato/paisagem) **não é requisito** para usar o conteúdo; não “travar” layout em uma única orientação sem justificativa funcional. [[A4]](#ref-a4)
 
-> <a id="RP19" href="#TEC19">19.</a> GUIA DE BOAS PRÁTICAS PARA ACESSIBILIDADE DIGITAL. Disponível em: [https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html](https://www.w3.org/WAI/WCAG22/Understandin/target-size-enhanced.html). Acesso em: 9 Mai. 2024.
 
-## Bibliografia
+---
 
-> </a> DINIZ, V.; FERRAZ, R.; NASCIMENTO, C. M.; CREDIDIO, R. Guia de Boas Práticas para Acessibilidade Digital. Programa de Cooperação entre Reino Unido e Brasil em Acesso Digital, 2023. Disponível em: [https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital/guiaboaspraaticasparaacessibilidadedigital.pdf](https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/acessibilidade-digital/guiaboaspraaticasparaacessibilidadedigital.pdf). Acesso em: 9 Mai. 2024.
+## 7) Drag & Drop com Alternativa **[NOVO]**
+- [ ] Toda interação de **arrastar e soltar** tem **alternativa por clique/teclado** (ordenar, mover, anexar). [[14]](#ref-14)
+
+!!! success "Certo"
+    Botões “mover para cima/baixo” em listas ordenáveis; upload com botão “Escolher arquivo”.
+
+!!! failure "Errado"
+    Reordenar só por arrastar.
+
+---
+
+## 8) Padrões de Ponteiro e Gestos
+- [ ] **Gestos complexos** (arrastar, pinçar, multi-toque) têm **alternativa** de **toque único/clique**. [[15]](#ref-15)
+- [ ] **Cancelamento por ponteiro**: ações por toque/click podem ser **abortadas** (não “dispara ao pressionar”). [[16]](#ref-16)
+
+!!! success "Certo"
+    Slide carrega com botões anterior/próximo; ação só conclui ao soltar/clicar.
+
+!!! failure "Errado"
+    “Pressionar” já executa sem chance de cancelar; só gestos complexos.
+
+---
+
+## 9) Conteúdo Dinâmico: Hover/Foco e Movimento
+- [ ] Conteúdo que aparece em **hover/foco** pode ser **dispensado**, não obscurece e persiste enquanto houver foco. [[17]](#ref-17)
+- [ ] Conteúdos que **movem/rolam/atualizam** oferecem **Pausar / Parar / Ocultar**. [[18]](#ref-18)
+- [ ] Evitar **flash** acima de 3 vezes/seg (ou manter abaixo do limiar seguro). [[19]](#ref-19)
+
+!!! success "Certo"
+    Tooltip dispensável; carrossel com pausar/anterior/próximo.
+
+!!! failure "Errado"
+    Banner piscando; tooltip que cobre formulário e some ao tentar interagir.
+
+---
+
+## 10) Idioma, Títulos e Metadados
+- [ ] **Idioma da página** (`<html lang="pt-BR">`) e **partes** com idioma distinto (`lang`). [[20]](#ref-20)
+- [ ] **Título de página** é único e descreve o conteúdo principal. [[21]](#ref-21)
+- [ ] Metadados de **viewport** e zoom não bloqueado; não usar `user-scalable=no`. [[22]](#ref-22)
+
+!!! success "Certo"
+    `<html lang="pt-BR">` e citação em inglês marcada com `lang="en"`.
+
+!!! failure "Errado"
+    Página em PT sem `lang`; zoom bloqueado em mobile.
+
+---
+
+## 11) Nomes, Papéis e Estados (Name, Role, Value)
+- [ ] Componentes custom têm **nome acessível**, **papel** e **estado/valor** expostos (ARIA conforme APG). [[23]](#ref-23)
+- [ ] **Evitar ARIA desnecessária** quando o elemento nativo atende. [[3]](#ref-3)
+
+!!! success "Certo"
+    Componente “switch” custom segue APG: `role="switch"`, `aria-checked`, teclado com Espaço/Enter.
+
+!!! failure "Errado"
+    `div role="button"` sem responder ao teclado; `aria-*` conflitando com nativo.
+
+---
+
+## 12) Tempo e Sessão
+- [ ] Informar **tempo limite** e oferecer forma de **estender** a sessão antes de expirar. [[24]](#ref-24)
+- [ ] Processos longos indicam **progresso** e preservam dados em caso de expiração. [[24]](#ref-24)
+
+!!! success "Certo"
+    Aviso “Sua sessão expira em 2 min. Deseja estender?” com botão “Estender”.
+
+!!! failure "Errado"
+    Sessão expira sem alerta e perde o formulário.
+
+---
+
+## O que **remover/ajustar** (comparado ao pocket antigo)
+- **SC 4.1.1 (Parsing)** tratado como critério normativo → **[ATUALIZADO]**: considerar só como **boa prática** (validar HTML/CSS); o SC foi removido na **WCAG 2.2**. [[25]](#ref-25)
+- **Accesskey** como recomendação geral → **[ATUALIZADO]**: preferir **skip-link + landmarks + headings**; se usar, documente e evite conflitos com atalhos do navegador/SO. [[2]](#ref-2) [[23]](#ref-23)
+
+---
+
+### Notas rápidas de implementação
+- Use elementos nativos sempre que possível; complemente com ARIA **apenas** quando necessário.  
+- Garanta testes com teclado, NVDA/Firefox, JAWS/Chrome, VoiceOver/Safari e TalkBack/Chrome.  
+- Validação automática ajuda, mas **não substitui** testes manuais com TA e usuários.
+
+---
+
+## Referências
+
+<a id="ref-1"></a>[1] WCAG 2.2 — 2.4.* (Títulos e navegação)  
+<a id="ref-2"></a>[2] WCAG 2.2 — Landmarks / Padrões de navegação; skip link  
+<a id="ref-3"></a>[3] WAI-ARIA Authoring Practices (APG) — uso de elementos nativos vs. ARIA  
+<a id="ref-4"></a>[4] WCAG 2.2 — 2.1.1 (Teclado)  
+<a id="ref-5"></a>[5] WCAG 2.2 — 2.1.2 (Sem armadilha de teclado)  
+<a id="ref-6"></a>[6] WCAG 2.2 — 2.4.3 (Ordem de foco)  
+<a id="ref-7"></a>[7] WCAG 2.2 — 3.3.2 (Rótulos ou instruções)  
+<a id="ref-8"></a>[8] WCAG 2.2 — 3.3.1 / 3.3.3 (Erros: identificação e sugestões)  
+<a id="ref-9"></a>[9] WCAG 2.2 — 3.3.4 (Prevenção de erro — financeiro/legais)  
+<a id="ref-10"></a>[10] WCAG 2.2 — 1.3.5 (Purpose of Input — autocompletes)  
+<a id="ref-11"></a>[11] WCAG 2.2 — 4.1.3 (Mensagens de status)  
+<a id="ref-12"></a>[12] WCAG 2.2 — 3.3.8 / 3.3.9 (Autenticação acessível)  
+<a id="ref-13"></a>[13] WCAG 2.2 — 3.3.7 (Entrada redundante)  
+<a id="ref-14"></a>[14] WCAG 2.2 — 2.5.7 (Movimentos de arrastar — alternativa)  
+<a id="ref-15"></a>[15] WCAG 2.2 — 2.5.1 (Gestos de ponteiro)  
+<a id="ref-16"></a>[16] WCAG 2.2 — 2.5.2 (Cancelamento por ponteiro)  
+<a id="ref-17"></a>[17] WCAG 2.2 — 1.4.13 (Conteúdo em hover ou foco)  
+<a id="ref-18"></a>[18] WCAG 2.2 — 2.2.2 (Pausar, Parar, Ocultar)  
+<a id="ref-19"></a>[19] WCAG 2.2 — 2.3.1 (Três flashes ou abaixo do limiar)  
+<a id="ref-20"></a>[20] WCAG 2.2 — 3.1.1 / 3.1.2 (Idioma de página e de partes)  
+<a id="ref-21"></a>[21] Boas práticas WAI — Títulos de página  
+<a id="ref-22"></a>[22] WCAG 2.2 — 1.4.4 / Mobile zoom (não bloquear)  
+<a id="ref-23"></a>[23] WAI-ARIA Authoring Practices — Name, Role, Value  
+<a id="ref-24"></a>[24] WCAG 2.2 — 2.2.1 / 2.2.6 (Temporizadores e controle de tempo)  
+<a id="ref-25"></a>[25] Mudanças WCAG 2.2 — Remoção do SC 4.1.1 (Parsing)
+<a id="ref-a1"></a>[A1] WCAG 2.2 — 1.3.1 (Informação e Relações): tabelas com `<th>` e `scope`; uso de `<caption>`.
+<a id="ref-a2"></a>[A2] WCAG 2.2 — 3.2.2 (Na Entrada): indicar comportamentos inesperados, como abrir em nova aba/janela.
+<a id="ref-a3"></a>[A3] WCAG 2.2 — 1.4.2 (Controle de Áudio): pausar/parar/volume para áudio com autoplay > 3 s.
+<a id="ref-a4"></a>[A4] WCAG 2.2 — 1.3.4 (Orientação): não exigir orientação específica do dispositivo.
