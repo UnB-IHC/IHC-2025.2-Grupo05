@@ -60,29 +60,6 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 
 ## Fotos do grupo
 
-<div class="gallery">
-  <figure>
-    <img src="imagens/grupo5-capa.jpg" alt="Integrante" />
-    <figcaption>Integrante</figcaption>
-  </figure>
-  <figure>
-    <img src="imagens/grupo5-1.jpg" alt="Integrante" />
-    <figcaption>Integrante</figcaption>
-  </figure>
-  <figure>
-    <img src="imagens/grupo5-2.jpg" alt="Integrante" />
-    <figcaption>Integrante</figcaption>
-  </figure>
-  <figure>
-    <img src="imagens/grupo5-3.jpg" alt="Integrante" />
-    <figcaption>Integrante</figcaption>
-  </figure>
-  <figure>
-    <img src="imagens/grupo5-4.jpg" alt="Integrante" />
-    <figcaption>Integrante</figcaption>
-  </figure>
-</div>
-
 ---
 
 ## Créditos e referência ao trabalho anterior

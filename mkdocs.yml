@@ -8,6 +8,8 @@ edit_uri: ""
 theme:
   name: material
   language: pt-BR
+  #logo: imagens/logo-verificaaa.png      # <- coloque o arquivo em docs/imagens/
+  #favicon: imagens/logo-verificaaa.png    # <- ou troque o caminho se usar outro nome
   features:
     - navigation.tabs
     - navigation.top
