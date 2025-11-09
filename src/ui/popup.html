@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WCAG Auditor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>WCAG Auditor</h1>
+      <p class="subtitle">Auditoria de Acessibilidade Web</p>
+    </header>
+
+    <main>
+      <section class="actions">
+        <button id="run-audit" class="btn btn-primary">
+          <span class="icon">🔍</span>
+          Auditar Página
+        </button>
+      </section>
+
+      <section id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Auditando página...</p>
+      </section>
+
+      <section id="results" class="results hidden">
+        <div class="summary">
+          <h2>Resultado da Auditoria</h2>
+          <div class="stats">
+            <div class="stat stat-errors">
+              <span class="stat-value" id="error-count">0</span>
+              <span class="stat-label">Erros</span>
+            </div>
+            <div class="stat stat-warnings">
+              <span class="stat-value" id="warning-count">0</span>
+              <span class="stat-label">Avisos</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="violations-list" class="violations-list">
+          <!-- Violações serão inseridas aqui dinamicamente -->
+        </div>
+
+        <div id="no-violations" class="no-violations hidden">
+          <span class="icon">✅</span>
+          <p>Nenhuma violação encontrada!</p>
+          <p class="note">A página passou em todas as verificações implementadas.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="version">v1.0.0</p>
+    </footer>
+  </div>
+
+  <script src="../core/messaging.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
