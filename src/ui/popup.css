@@ -95,6 +95,24 @@ main {
   background: var(--primary-hover);
 }
 
+.btn-secondary {
+  background: #757575;
+  color: white;
+  margin-top: 8px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #616161;
+}
+
+.btn-secondary.active {
+  background: #388e3c;
+}
+
+.btn-secondary.active:hover:not(:disabled) {
+  background: #2e7d32;
+}
+
 .icon {
   font-size: 18px;
 }

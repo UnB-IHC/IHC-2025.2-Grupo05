@@ -4,12 +4,18 @@
 
 // Elementos do DOM
 const runAuditBtn = document.getElementById('run-audit');
+const highlightToggleBtn = document.getElementById('highlight-toggle');
+const highlightText = document.getElementById('highlight-text');
 const loadingSection = document.getElementById('loading');
 const resultsSection = document.getElementById('results');
 const violationsList = document.getElementById('violations-list');
 const noViolations = document.getElementById('no-violations');
 const errorCount = document.getElementById('error-count');
 const warningCount = document.getElementById('warning-count');
+
+// Estado do overlay
+let highlightActive = false;
+let currentViolations = [];
 
 /**
  * Executa a auditoria na página atual
@@ -30,7 +36,14 @@ async function runAudit() {
 
     if (response && response.success) {
       console.log(`[Popup] ${response.totalViolations || 0} violações encontradas`);
+      currentViolations = response.violations || [];
       displayResults(response.violations, response);
+      
+      // Habilita botão de destaque se houver violações
+      if (currentViolations.length > 0) {
+        highlightToggleBtn.classList.remove('hidden');
+        highlightToggleBtn.disabled = false;
+      }
     } else {
       showError('Erro ao executar auditoria: ' + (response?.error || 'Sem resposta do content script'));
     }
@@ -160,8 +173,53 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+/**
+ * Alterna o destaque de violações na página
+ */
+async function toggleHighlight() {
+  try {
+    if (highlightActive) {
+      // Desativar destaque
+      await window.messaging.requestHighlight([]);
+      highlightActive = false;
+      highlightText.textContent = 'Destacar Violações';
+      highlightToggleBtn.classList.remove('active');
+    } else {
+      // Ativar destaque
+      // Coleta todos os nós de todas as violações
+      const allNodes = [];
+      currentViolations.forEach(violation => {
+        violation.nodes.forEach(node => {
+          allNodes.push({
+            selector: node.selector,
+            ruleId: violation.ruleId
+          });
+        });
+      });
+
+      if (allNodes.length > 0) {
+        await window.messaging.requestHighlight(allNodes);
+        highlightActive = true;
+        highlightText.textContent = 'Ocultar Destaques';
+        highlightToggleBtn.classList.add('active');
+      }
+    }
+  } catch (error) {
+    console.error('[Popup] Erro ao alternar destaque:', error);
+    showError('Erro ao destacar elementos: ' + error.message);
+  }
+}
+
 // Event listeners
 runAuditBtn.addEventListener('click', runAudit);
+highlightToggleBtn.addEventListener('click', toggleHighlight);
 
 // Inicialização
-console.log('Popup carregado');
+console.log('[Popup] Popup carregado');
+
+// Desabilita destaque ao fechar popup
+window.addEventListener('unload', () => {
+  if (highlightActive) {
+    window.messaging.requestHighlight([]).catch(() => {});
+  }
+});

@@ -126,23 +126,62 @@ function highlightNodes(nodes) {
   // Remove destaques anteriores
   document.querySelectorAll('.wcag-auditor-highlight').forEach(el => {
     el.classList.remove('wcag-auditor-highlight');
+    el.removeAttribute('data-wcag-violation');
   });
+
+  // Se array vazio, apenas remove destaques
+  if (!nodes || nodes.length === 0) {
+    console.log('[WCAG Auditor] Destaques removidos');
+    return;
+  }
   
   // Adiciona novos destaques
-  nodes.forEach(nodeInfo => {
+  let firstElement = null;
+  let highlightedCount = 0;
+
+  nodes.forEach((nodeInfo, index) => {
     try {
       const element = document.querySelector(nodeInfo.selector);
       if (element) {
         element.classList.add('wcag-auditor-highlight');
-        // Scroll para o primeiro elemento
-        if (nodes.indexOf(nodeInfo) === 0) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.setAttribute('data-wcag-violation', nodeInfo.ruleId || 'unknown');
+        
+        // Torna o elemento focável via teclado se ainda não for
+        if (!element.hasAttribute('tabindex') && !element.matches('a, button, input, select, textarea')) {
+          element.setAttribute('tabindex', '-1');
+        }
+
+        highlightedCount++;
+
+        // Guarda referência ao primeiro elemento
+        if (!firstElement) {
+          firstElement = element;
         }
       }
     } catch (e) {
-      console.warn('Não foi possível destacar:', nodeInfo.selector);
+      console.warn('[WCAG Auditor] Não foi possível destacar:', nodeInfo.selector, e);
     }
   });
+
+  console.log(`[WCAG Auditor] ${highlightedCount} elemento(s) destacado(s)`);
+
+  // Scroll suave até o primeiro elemento
+  if (firstElement) {
+    setTimeout(() => {
+      firstElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+      
+      // Foca o elemento para navegação por teclado
+      try {
+        firstElement.focus({ preventScroll: true });
+      } catch (e) {
+        // Alguns elementos não são focáveis, tudo bem
+      }
+    }, 100);
+  }
 }
 
 /**
@@ -215,14 +254,61 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Injeta estilos para destacar violações
+// Injeta estilos para destacar violações de forma acessível
 const style = document.createElement('style');
+style.id = 'wcag-auditor-styles';
 style.textContent = `
+  /* Destaque de violações - acessível e visível */
   .wcag-auditor-highlight {
-    outline: 3px solid #ff0000 !important;
-    outline-offset: 2px !important;
-    background-color: rgba(255, 0, 0, 0.1) !important;
+    outline: 4px solid #d32f2f !important;
+    outline-offset: 3px !important;
+    background-color: rgba(211, 47, 47, 0.1) !important;
     scroll-margin-top: 100px !important;
+    position: relative !important;
+    z-index: 999998 !important;
+  }
+
+  /* Animação de destaque (acessível - respeita prefers-reduced-motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    .wcag-auditor-highlight {
+      animation: wcag-pulse 1.5s ease-in-out infinite;
+    }
+  }
+
+  @keyframes wcag-pulse {
+    0%, 100% {
+      outline-color: #d32f2f;
+      background-color: rgba(211, 47, 47, 0.1);
+    }
+    50% {
+      outline-color: #ff5252;
+      background-color: rgba(255, 82, 82, 0.15);
+    }
+  }
+
+  /* Estado de foco (para navegação por teclado) */
+  .wcag-auditor-highlight:focus {
+    outline: 5px solid #0066cc !important;
+    outline-offset: 4px !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 6px #0066cc !important;
+  }
+
+  /* Badge com ID da regra violada */
+  .wcag-auditor-highlight::before {
+    content: attr(data-wcag-violation);
+    position: absolute;
+    top: -28px;
+    left: 0;
+    background: #d32f2f;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: monospace;
+    z-index: 999999;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
 `;
 document.head.appendChild(style);
