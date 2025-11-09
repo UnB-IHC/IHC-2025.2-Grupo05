@@ -1,6 +1,22 @@
 /**
  * Audit Runner - Motor de auditoria
  * Gerencia registro e execução de regras WCAG
+ * 
+ * SCHEMA PADRÃO DE RESULTADO:
+ * {
+ *   ruleId: string,              // Ex: 'img-alt', 'page-title'
+ *   wcag: {
+ *     id: string,                // Ex: '1.1.1'
+ *     level: string              // 'A', 'AA' ou 'AAA'
+ *   },
+ *   severity: string,            // 'error' ou 'warn'
+ *   description: string,         // Descrição da violação
+ *   nodes: [{
+ *     selector: string,          // Seletor CSS do elemento
+ *     snippet: string,           // HTML snippet (truncado)
+ *     help: string              // Dica de como corrigir
+ *   }]
+ * }
  */
 
 class AuditRunner {
@@ -12,17 +28,27 @@ class AuditRunner {
    * Registra uma nova regra de auditoria
    * @param {string} id - Identificador único da regra (ex: 'img-alt')
    * @param {Object} rule - Objeto com metadados e função check
+   * @param {Object} rule.wcag - { id: '1.1.1', level: 'A' }
+   * @param {string} rule.severity - 'error' ou 'warn'
+   * @param {string} rule.description - Descrição da violação
+   * @param {Function} rule.check - Função que retorna { nodes: [...] }
+   * @param {boolean} [rule.enabled=true] - Se a regra está habilitada
    */
   register(id, rule) {
     if (!rule.check || typeof rule.check !== 'function') {
       throw new Error(`Regra ${id} deve ter uma função check`);
     }
     
+    // Valida estrutura da regra
+    if (!rule.wcag || !rule.wcag.id) {
+      console.warn(`Regra ${id} sem WCAG ID definido`);
+    }
+    
     this.rules.set(id, {
       id,
-      wcag: rule.wcag || {},
+      wcag: rule.wcag || { id: 'N/A', level: 'A' },
       severity: rule.severity || 'error',
-      description: rule.description || '',
+      description: rule.description || 'Violação detectada',
       check: rule.check,
       enabled: rule.enabled !== false
     });
@@ -31,7 +57,7 @@ class AuditRunner {
   /**
    * Executa todas as regras habilitadas no documento
    * @param {Document} document - Documento DOM a ser auditado
-   * @returns {Promise<Array>} Lista de violações encontradas
+   * @returns {Promise<Array>} Lista de violações encontradas (schema normalizado)
    */
   async run(document) {
     const violations = [];
@@ -43,15 +69,10 @@ class AuditRunner {
         // Executa a função check da regra
         const result = await rule.check(document);
         
-        // Se houve violações, adiciona à lista
+        // Se houve violações, normaliza e adiciona à lista
         if (result && result.nodes && result.nodes.length > 0) {
-          violations.push({
-            ruleId: id,
-            wcag: rule.wcag,
-            severity: rule.severity,
-            description: rule.description,
-            nodes: result.nodes
-          });
+          const normalizedViolation = this.normalizeResult(id, rule, result);
+          violations.push(normalizedViolation);
         }
       } catch (error) {
         console.error(`Erro ao executar regra ${id}:`, error);
@@ -59,6 +80,47 @@ class AuditRunner {
     }
 
     return violations;
+  }
+
+  /**
+   * Normaliza resultado da regra conforme schema padrão
+   * Garante que todos os campos obrigatórios estejam presentes
+   * @param {string} id - ID da regra
+   * @param {Object} rule - Metadados da regra
+   * @param {Object} result - Resultado bruto da regra
+   * @returns {Object} Resultado normalizado conforme schema
+   */
+  normalizeResult(id, rule, result) {
+    // Valida estrutura básica
+    if (!result.nodes || !Array.isArray(result.nodes)) {
+      console.warn(`Regra ${id} retornou resultado sem array 'nodes'`);
+      return null;
+    }
+
+    // Normaliza cada nó
+    const normalizedNodes = result.nodes.map(node => {
+      if (!node.selector) {
+        console.warn(`Nó da regra ${id} sem seletor CSS`);
+      }
+      
+      return {
+        selector: node.selector || 'N/A',
+        snippet: (node.snippet || '').substring(0, 200), // Trunca snippet
+        help: node.help || 'Corrija este elemento conforme as diretrizes WCAG'
+      };
+    }).filter(node => node !== null);
+
+    // Retorna violação normalizada
+    return {
+      ruleId: id,
+      wcag: {
+        id: rule.wcag.id || 'N/A',
+        level: rule.wcag.level || 'A'
+      },
+      severity: rule.severity || 'error',
+      description: rule.description || 'Violação detectada',
+      nodes: normalizedNodes
+    };
   }
 
   /**

@@ -21,15 +21,21 @@ async function runAudit() {
     resultsSection.classList.add('hidden');
     runAuditBtn.disabled = true;
 
+    console.log('[Popup] Solicitando auditoria...');
+
     // Solicita auditoria
     const response = await window.messaging.requestAudit();
 
-    if (response.success) {
-      displayResults(response.violations);
+    console.log('[Popup] Resposta recebida:', response);
+
+    if (response && response.success) {
+      console.log(`[Popup] ${response.totalViolations || 0} violações encontradas`);
+      displayResults(response.violations, response);
     } else {
-      showError('Erro ao executar auditoria: ' + (response.error || 'Desconhecido'));
+      showError('Erro ao executar auditoria: ' + (response?.error || 'Sem resposta do content script'));
     }
   } catch (error) {
+    console.error('[Popup] Erro:', error);
     showError('Erro ao comunicar com a página: ' + error.message);
   } finally {
     loadingSection.classList.add('hidden');
@@ -39,9 +45,10 @@ async function runAudit() {
 
 /**
  * Exibe os resultados da auditoria
- * @param {Array} violations - Lista de violações
+ * @param {Array} violations - Lista de violações (schema normalizado)
+ * @param {Object} metadata - Metadados da auditoria (url, timestamp, etc)
  */
-function displayResults(violations) {
+function displayResults(violations, metadata = {}) {
   resultsSection.classList.remove('hidden');
   
   if (!violations || violations.length === 0) {
@@ -50,6 +57,8 @@ function displayResults(violations) {
     noViolations.classList.remove('hidden');
     errorCount.textContent = '0';
     warningCount.textContent = '0';
+    
+    console.log('[Popup] Nenhuma violação encontrada! ✅');
     return;
   }
 
@@ -61,12 +70,17 @@ function displayResults(violations) {
   let warnings = 0;
   
   violations.forEach(v => {
-    if (v.severity === 'error') errors += v.nodes.length;
-    else warnings += v.nodes.length;
+    if (v.severity === 'error') {
+      errors += v.nodes.length;
+    } else if (v.severity === 'warn') {
+      warnings += v.nodes.length;
+    }
   });
   
   errorCount.textContent = errors;
   warningCount.textContent = warnings;
+  
+  console.log(`[Popup] Exibindo: ${errors} erros, ${warnings} avisos`);
   
   // Renderiza lista de violações
   renderViolations(violations);
