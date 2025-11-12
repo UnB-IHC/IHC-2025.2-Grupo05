@@ -81,6 +81,12 @@ Abra o console da **página** (não da extensão) e verifique logs:
 [WCAG Auditor] Regra 'lang-html' (WCAG 3.1.1) registrada
 [WCAG Auditor] Regra 'img-alt' (WCAG 1.1.1) registrada
 [WCAG Auditor] Regra 'link-name' (WCAG 2.4.4) registrada
+[WCAG Auditor] Regra 'heading-order' (WCAG 1.3.1) registrada
+[WCAG Auditor] Regra 'multiple-ways' (WCAG 2.4.5) registrada
+[WCAG Auditor] Regra 'text-spacing' (WCAG 1.4.12) registrada
+[WCAG Auditor] Regra 'images-of-text' (WCAG 1.4.5) registrada
+[WCAG Auditor] Regra 'alt-indicates-longdesc' (WCAG 1.1.1) registrada
+[WCAG Auditor] Regra 'icon-labels' (WCAG 1.1.1) registrada
 [WCAG Auditor] Mensagem START_AUDIT recebida
 [WCAG Auditor] Auditoria concluída: X violação(ões) encontrada(s)
 ```
@@ -88,7 +94,7 @@ Abra o console da **página** (não da extensão) e verifique logs:
 ### ✅ Critério de Sucesso
 - Auditoria completa sem erros
 - Violações detectadas e listadas
-- Todas as 4 regras executaram
+- Todas as 10 regras executaram
 
 ---
 
@@ -245,6 +251,117 @@ Crie um HTML simples ou use site bem acessível:
 
 ---
 
+### 6.5 Teste: `heading-order`
+
+**Site com erro:**
+```html
+<h1>Título Principal</h1>
+<h3>Subseção</h3> <!-- pulou o H2! -->
+```
+**Esperado:** Violação detectada
+
+**Site correto:**
+```html
+<h1>Título Principal</h1>
+<h2>Seção</h2>
+<h3>Subseção</h3>
+```
+**Esperado:** Sem violação
+
+---
+
+### 6.6 Teste: `multiple-ways`
+
+**Site com erro:**
+```html
+<!-- Site apenas com <nav> (1 mecanismo) -->
+<nav><a href="/">Home</a></nav>
+```
+**Esperado:** Aviso detectado (precisa ≥2 mecanismos)
+
+**Site correto:**
+```html
+<nav><a href="/">Home</a></nav>
+<form role="search"><input type="search"></form>
+```
+**Esperado:** Sem violação
+
+---
+
+### 6.7 Teste: `text-spacing`
+
+**Site com erro:**
+```html
+<style>
+  .box { height: 50px; overflow: hidden; }
+</style>
+<div class="box">Texto que pode ser cortado...</div>
+```
+**Esperado:** Aviso detectado
+
+**Site correto:**
+```html
+<style>
+  .box { min-height: 50px; overflow: auto; }
+</style>
+<div class="box">Texto com espaçamento flexível</div>
+```
+**Esperado:** Sem violação
+
+---
+
+### 6.8 Teste: `images-of-text`
+
+**Site com erro:**
+```html
+<img src="titulo-secao.png" alt="Bem-vindo">
+```
+**Esperado:** Aviso detectado
+
+**Site correto:**
+```html
+<h1>Bem-vindo</h1> <!-- Texto real com CSS -->
+```
+**Esperado:** Sem violação
+
+---
+
+### 6.9 Teste: `alt-indicates-longdesc`
+
+**Site com erro:**
+```html
+<img alt="Gráfico" aria-describedby="desc">
+<div id="desc">Descrição longa aqui...</div>
+```
+**Esperado:** Aviso (alt não menciona descrição)
+
+**Site correto:**
+```html
+<img alt="Gráfico de vendas. Descrição abaixo." aria-describedby="desc">
+<div id="desc">Janeiro: R$50k...</div>
+```
+**Esperado:** Sem violação
+
+---
+
+### 6.10 Teste: `icon-labels`
+
+**Site com erro:**
+```html
+<a href="/home"><i class="fa fa-home"></i></a>
+<button><span class="icon-search"></span></button>
+```
+**Esperado:** 2 violações detectadas
+
+**Site correto:**
+```html
+<a href="/home"><i class="fa fa-home"></i> Página Inicial</a>
+<button aria-label="Buscar"><span class="icon-search"></span></button>
+```
+**Esperado:** Sem violações
+
+---
+
 ## 🐛 Problemas Comuns e Soluções
 
 ### Problema: "Sem resposta do content script"
@@ -287,7 +404,9 @@ Antes de considerar concluído, verifique:
 - [ ] Navegação por teclado funciona
 - [ ] Sem travar em páginas grandes
 - [ ] Logs aparecem no console
-- [ ] Todas as 4 regras executam
+- [ ] Todas as 10 regras executam
+- [ ] Regras de erro (severity='error') contam como erros
+- [ ] Regras de aviso (severity='warn') contam como avisos
 - [ ] README está claro e testável
 - [ ] Commits seguem conventional commits
 
