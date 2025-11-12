@@ -22,7 +22,13 @@
         "src/rules/page-title.js",
         "src/rules/lang-html.js",
         "src/rules/img-alt.js",
-        "src/rules/link-name.js"
+        "src/rules/link-name.js",
+        "src/rules/heading-order.js",
+        "src/rules/multiple-ways.js",
+        "src/rules/text-spacing.js",
+        "src/rules/images-of-text.js",
+        "src/rules/alt-indicates-longdesc.js",
+        "src/rules/icon-labels.js"
       ],
       "run_at": "document_idle"
     }
