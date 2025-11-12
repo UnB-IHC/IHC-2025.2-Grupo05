@@ -33,7 +33,7 @@ Esta extensão Chrome detecta **automaticamente** violações de acessibilidade 
 - ✅ **Destaque visual** de elementos problemáticos (overlay acessível)
 - ✅ **Relatório detalhado** com seletores CSS, snippets HTML e dicas de correção
 - ✅ **Navegação por teclado** entre elementos destacados
-- ✅ **4 regras base implementadas** (lote 0)
+- ✅ **10 regras implementadas** (níveis A, AA)
 - 🚧 Exportação em JSON/CSV (em desenvolvimento)
 - 🚧 Configuração por regra (em desenvolvimento)
 
@@ -108,18 +108,24 @@ Cada violação mostra:
 
 ---
 
-## 📊 Regras Implementadas (Lote 0)
+## 📊 Regras Implementadas
 
-### ✅ 4 Regras Base - WCAG 2.2 Nível A
+### ✅ 10 Regras - WCAG 2.2 (Níveis A e AA)
 
-| ID | Regra | WCAG | Nível | O que Verifica |
-|----|-------|------|-------|----------------|
-| `page-title` | Título da Página | 2.4.2 | A | `<title>` existe e não está vazio |
-| `lang-html` | Idioma da Página | 3.1.1 | A | `<html lang="...">` válido (ISO 639-1) |
-| `img-alt` | Texto Alternativo | 1.1.1 | A | `<img>` tem `alt` adequado (não vazio, não genérico) |
-| `link-name` | Nome de Link | 2.4.4 | A | `<a>` tem texto descritivo (não "clique aqui") |
+| # | ID | Regra | WCAG | Nível | O que Verifica |
+|---|----|-------|------|-------|----------------|
+| 1 | `page-title` | Título da Página | 2.4.2 | A | `<title>` existe e não está vazio |
+| 2 | `lang-html` | Idioma da Página | 3.1.1 | A | `<html lang="...">` válido (ISO 639-1) |
+| 3 | `img-alt` | Texto Alternativo | 1.1.1 | A | `<img>` tem `alt` adequado (não vazio, não genérico) |
+| 4 | `link-name` | Links Descritivos | 2.4.4 | A | `<a>` tem texto descritivo (não "clique aqui") |
+| 5 | `heading-order` | Hierarquia de Cabeçalhos | 1.3.1 | A | H1→H2→H3 sem pular níveis |
+| 6 | `multiple-ways` | Múltiplas Formas Navegação | 2.4.5 | AA | Menu, busca, sitemap (≥2 mecanismos) |
+| 7 | `text-spacing` | Espaçamento Ajustável | 1.4.12 | AA | CSS não impede ajuste de espaçamento |
+| 8 | `images-of-text` | Evitar Imagens de Texto | 1.4.5 | AA | Detecta texto que deveria ser HTML/CSS |
+| 9 | `alt-indicates-longdesc` | Alt Indica Descrição | 1.1.1 | A | Alt menciona onde está descrição longa |
+| 10 | `icon-labels` | Rótulos de Ícones | 1.1.1 | A | Ícones em botões/links têm rótulo claro |
 
-### � Detalhes das Regras
+### 📋 Detalhes das Regras Base
 
 #### 1. `page-title` - Título da Página (WCAG 2.4.2)
 **O que detecta:**
@@ -209,6 +215,124 @@ Cada violação mostra:
 
 ---
 
+#### 5. `heading-order` - Hierarquia de Cabeçalhos (WCAG 1.3.1)
+**O que detecta:**
+- ✗ Cabeçalhos que pulam níveis (ex: H1 → H3)
+- ✗ Primeiro cabeçalho não é H1
+- ✗ Hierarquia quebrada
+
+**Exemplo de violação:**
+```html
+<h1>Título Principal</h1>
+<h3>Subseção</h3>  <!-- Pulou o H2! -->
+```
+
+**Como corrigir:**
+```html
+<h1>Título Principal</h1>
+<h2>Seção</h2>
+<h3>Subseção</h3>  <!-- Hierarquia correta -->
+```
+
+---
+
+#### 6. `multiple-ways` - Múltiplas Formas de Navegação (WCAG 2.4.5)
+**O que detecta:**
+- ⚠️ Menos de 2 mecanismos de navegação detectados
+- Verifica: menu, busca, breadcrumbs, sitemap, índice
+
+**Exemplo de violação:**
+```html
+<!-- Site com apenas menu, sem busca ou outros mecanismos -->
+```
+
+**Como corrigir:**
+```html
+<!-- Adicione pelo menos 2 mecanismos: -->
+<nav><!-- Menu principal --></nav>
+<form role="search"><!-- Campo de busca --></form>
+```
+
+---
+
+#### 7. `text-spacing` - Espaçamento Ajustável (WCAG 1.4.12)
+**O que detecta:**
+- ⚠️ Elementos com `height` fixa que podem cortar texto
+- ⚠️ `overflow: hidden` em textos longos
+- ⚠️ `white-space: nowrap` impedindo quebra
+- ⚠️ `line-height` muito baixa (<1.2)
+
+**Exemplo de violação:**
+```css
+.box { height: 50px; overflow: hidden; }
+.text { white-space: nowrap; }
+```
+
+**Como corrigir:**
+```css
+.box { min-height: 50px; overflow: visible; }
+.text { white-space: normal; line-height: 1.5; }
+```
+
+---
+
+#### 8. `images-of-text` - Evitar Imagens de Texto (WCAG 1.4.5)
+**O que detecta:**
+- ⚠️ Imagens com nomes sugestivos (`title.png`, `heading-text.png`)
+- ⚠️ Alt sugere texto formatável
+- ⚠️ SVGs com texto
+
+**Exemplo de violação:**
+```html
+<img src="titulo-secao.png" alt="Bem-vindo ao nosso site">
+```
+
+**Como corrigir:**
+```html
+<h1>Bem-vindo ao nosso site</h1>  <!-- Texto real com CSS -->
+```
+
+---
+
+#### 9. `alt-indicates-longdesc` - Alt Indica Descrição (WCAG 1.1.1)
+**O que detecta:**
+- ⚠️ Imagem tem descrição longa mas alt não menciona
+- ⚠️ Alt menciona descrição mas ela não existe
+
+**Exemplo de violação:**
+```html
+<img alt="Gráfico" aria-describedby="desc1">
+<div id="desc1"><!-- Descrição longa aqui --></div>
+```
+
+**Como corrigir:**
+```html
+<img alt="Gráfico de vendas. Descrição detalhada abaixo." aria-describedby="desc1">
+<div id="desc1">O gráfico mostra vendas...</div>
+```
+
+---
+
+#### 10. `icon-labels` - Rótulos de Ícones (WCAG 1.1.1)
+**O que detecta:**
+- ✗ Links/botões com apenas ícones (Font Awesome, Material, SVG)
+- ✗ Sem texto visível ou `aria-label`
+- ✗ Rótulos muito curtos/genéricos
+
+**Exemplo de violação:**
+```html
+<a href="/home"><i class="fa fa-home"></i></a>
+<button><span class="icon-search"></span></button>
+```
+
+**Como corrigir:**
+```html
+<a href="/home"><i class="fa fa-home"></i> Página Inicial</a>
+<button aria-label="Buscar"><span class="icon-search"></span></button>
+```
+
+---
+
 ## 🚧 Roadmap - Próximas Regras
 
 ### Lote 1 (Semântica/Formulários) - Em desenvolvimento
@@ -224,7 +348,7 @@ Cada violação mostra:
 
 ### Lote 3 (Percepção/Estrutura) - Em desenvolvimento
 - `contrast-AA` (WCAG 1.4.3 AA) - Contraste de cores
-- `heading-order` (WCAG 1.3.1 A) - Hierarquia de headings
+- `complex-images-description` (WCAG 1.1.1 A) - Descrição longa de gráficos complexos
 
 ## 🛠️ Arquitetura Técnica
 
@@ -244,10 +368,16 @@ Cada violação mostra:
 │   ├── /rules                 # Regras WCAG (uma por arquivo)
 │   │   ├── README.md          # Guia de criação de regras
 │   │   ├── TEMPLATE.js        # Template para novas regras
-│   │   ├── page-title.js      # ✅ Implementada
-│   │   ├── lang-html.js       # ✅ Implementada
-│   │   ├── img-alt.js         # ✅ Implementada
-│   │   └── link-name.js       # ✅ Implementada
+│   │   ├── page-title.js                  # ✅ Implementada
+│   │   ├── lang-html.js                   # ✅ Implementada
+│   │   ├── img-alt.js                     # ✅ Implementada
+│   │   ├── link-name.js                   # ✅ Implementada
+│   │   ├── heading-order.js               # ✅ Implementada
+│   │   ├── multiple-ways.js               # ✅ Implementada
+│   │   ├── text-spacing.js                # ✅ Implementada
+│   │   ├── images-of-text.js              # ✅ Implementada
+│   │   ├── alt-indicates-longdesc.js      # ✅ Implementada
+│   │   └── icon-labels.js                 # ✅ Implementada
 │   └── /ui
 │       ├── popup.html         # Interface do popup
 │       ├── popup.js           # Lógica do popup + highlight
