@@ -8,8 +8,6 @@ edit_uri: ""
 theme:
   name: material
   language: pt-BR
-  #logo: imagens/logo-verificaaa.png      # <- coloque o arquivo em docs/imagens/
-  #favicon: imagens/logo-verificaaa.png    # <- ou troque o caminho se usar outro nome
   features:
     - navigation.tabs
     - navigation.top
@@ -57,13 +55,12 @@ extra_css:
 
 nav:
   - Início: index.md
-  - Design:
-      - Checklist (Design): design/design.md
-  - Desenvolvimento Web:
-      - Checklist (Dev): devWeb/non_text_content.md
-  - Conteúdo:
-      - Checklist (Conteúdo): geracaoConteudo/conteudo.md
-  - Gestão do Projeto:
-      - Checklist (Gestão): gestaoProjeto/gestaoProjeto.md
-  - Ferramentas:
-      - Guia de ferramentas: tools/ferramentas.md
+  - Como Usar: comUsar/comoUsar.md
+  - Sobre este Guia: Sobre/sobreGuia.md
+  - Design: design/design.md
+  - Desenvolvimento Web: devWeb/non_text_content.md
+  - Conteúdo: geracaoConteudo/conteudo.md
+  - Gestão do Projeto: gestaoProjeto/gestaoProjeto.md
+  - Ferramentas: tools/ferramentas.md
+  - Heurísticas: metodo/heuristicas.md
+

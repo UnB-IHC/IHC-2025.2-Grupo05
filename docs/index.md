@@ -32,6 +32,22 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 - **Histórico importante:** remoção do **SC 4.1.1 (Parsing)** na WCAG 2.2 — mantido só como boa prática (validar HTML/CSS).
 
 ---
+## Comparativo V1 -> V2
+
+## Comparativo V1 x V2
+
+| Aspecto | Pocket V1                                              | VerificAAA V2                                                  |
+|----------------------------------|--------------------------------------------------------|----------------------------------------------------------------|
+| Escopo de plataforma             | Focado em **web**                                      | **Web + aplicativos móveis**                                   |
+| Normas ABNT                      | Sem referência explícita                               | **NBR 17225:2025** (Web) e **NBR 17060:2022** (Mobile)         |
+| Diretrizes internacionais        | WCAG 2.0 / 2.1 (referência geral)                      | **WCAG 2.2 (AA)**, com novos critérios incorporados           |
+| Organização do conteúdo          | Tópicos gerais                                         | Checklists por papel: **Design, Dev, Conteúdo, Gestão, QA**   |
+| Foco em exemplos práticos        | Pontual                                                | **Mais exemplos de certo/errado e casos práticos**            |
+| Gestão e governança de acessibilidade | Pouco detalhada                                   | Seção específica para **gestão de projeto, política e DoD**   |
+| Ferramentas de apoio             | Citadas de forma resumida
+
+
+---
 
 ## Referências principais
 
@@ -48,17 +64,11 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 
 ---
 
-## Como usar este guia
-
-1. **Planejamento** → veja **Gestão do Projeto** para políticas, metas, DoD e auditoria.  
-2. **Design** → cheque contraste, foco, alvos, movimento e reflow.  
-3. **Desenvolvimento** → semântica nativa, teclado, ARIA/APG, formulários, status, autenticação.  
-4. **Conteúdo** → linguagem simples, alternativas textuais, mídia (CC/AD), links e documentos.  
-5. **Validação** → use as **Ferramentas** (automáticas + manuais + TA) e registre evidências no PR.
-
----
-
 ## Fotos do grupo
+
+| ![Foto de Ana Elisa](images/0.png){ width="140" } | ![Foto de Marina Galdi](images/MarinaAgostiniGaldi.png){ width="140" } | ![Foto de Davi Camilo](images/image%20(2).png){ width="140" } | ![Foto de Euller Junior](images/image%20(1).png){ width="140" } | ![Foto de Kauã Vale](images/image.png){ width="140" } |
+| --- | --- | --- | --- | --- |
+| **Ana Elisa** | **Marina Galdi** | **Davi Camilo** | **Euller Junior** | **Kauã Vale** |
 
 ---
 
@@ -68,7 +78,6 @@ Esta V2 se baseia em um *pocket* de um grupo anterior, que serviu de **ponto de 
 Todas as **inclusões/atualizações** foram **referenciadas** nas páginas internas (rodapé “Referências”).
 
 - **Equipe**: Grupo 05 (IHC/UnB — 2025.2)  
-- **Contato**: `nop` 
 
 ---
 
@@ -76,7 +85,7 @@ Todas as **inclusões/atualizações** foram **referenciadas** nas páginas inte
 
 - Objetivo-alvo: **WCAG 2.2 nível AA**.  
 - Adoção nacional: **NBR 17225 (Web)** e **NBR 17060 (Mobile)**.  
-- Publicaremos a **Declaração de Acessibilidade** com escopo, limitações e canal de contato na seção **Gestão do Projeto**.
+
 
 <style>
 .gallery{

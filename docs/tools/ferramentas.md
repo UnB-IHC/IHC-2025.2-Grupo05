@@ -87,6 +87,15 @@ Esta página reúne **ferramentas práticas** para apoiar o time (Design, Conte�
 **Limitações:** foca só em headings; não vê landmarks.  
 **Dica avançada:** use junto com **Landmarks**.
 
+> **Comentário do grupo:**  
+> O HeadingsMap ajudou bastante a visualizar, de forma rápida, a **hierarquia de títulos** da página.  
+> Com ele, conseguimos enxergar se a estrutura fazia sentido (H1 → H2 → H3…) e se a navegação
+> por headings seria coerente para leitores de tela.  
+> Uma coisa que percebemos é que a ferramenta mostra apenas a **estrutura técnica**, então
+> ainda foi necessário analisar se os títulos realmente descreviam o conteúdo de maneira clara
+> e alinhada com a experiência real de uso.
+
+
 ---
 
 ### Landmarks (extensão)
@@ -154,6 +163,41 @@ Esta página reúne **ferramentas práticas** para apoiar o time (Design, Conte�
 **Limitações:** capturar cor errada gera **falso resultado**.  
 **Dica avançada:** documente **tokens** (ex.: `--text-on-primary`) com os **ratios** esperados.
 
+### WCAG Color Contrast Checker (extensão)
+**Quando usar:** validar contraste de **pares específicos de cores** diretamente no navegador (texto, ícones, bordas de componentes etc.), sobretudo quando você está ajustando o design “na mão”.
+**Como usar:**  
+1. Ative a extensão na página que deseja testar.  
+2. Use o conta-gotas ou informe manualmente as cores de primeiro plano e fundo.  
+3. Verifique os valores de contraste reportados para texto normal e texto grande, comparando com os requisitos da WCAG (ex.: 4.5:1 para texto normal).  
+**Limitações:** o resultado depende de capturar a **cor exata**; se você pegar o tom errado, o ratio também sai errado. E não avalia contexto (tamanho da fonte, peso, estado de foco/hover), só o contraste numérico.
+**Dica avançada:** use em conjunto com DevTools (para inspecionar o CSS real) e registre os **ratios aprovados** como tokens de design (ex.: `--text-on-primary: 4.8:1`), facilitando a padronização no time.
+
+> **Comentário do grupo:**  
+> Usamos o *WCAG Color Contrast Checker* como nosso “termômetro rápido” de contraste.  
+> Ele ajudou a testar combinações específicas de cores e verificar se atendiam aos
+> valores mínimos exigidos pela WCAG, principalmente em textos, links e botões.  
+> Percebemos, porém, que a ferramenta **não substitui olhar o componente no contexto real**
+> (tamanho da fonte, peso, fundo, estado de foco/hover), então usamos o resultado como
+> apoio técnico, e não como a única decisão de design.
+
+### Editor de espaçamento de texto (extensão)
+**Quando usar:** verificar se o layout continua **legível e utilizável** quando o usuário aumenta espaçamentos, conforme o critério **1.4.12 Text Spacing** (WCAG 2.2).
+**Como usar:**  
+1. Ative a extensão na página que será testada.  
+2. Aplique os valores recomendados de espaçamento (linha, parágrafo, letras e palavras).  
+3. Observe se textos continuam legíveis, se botões e campos não “quebram” e se não surgem barras de rolagem horizontais desnecessárias.
+**Limitações:** A ferramenta atua só no **texto**, não cobre outros aspectos de layout (como reflow total da página) e não substitui testes de zoom (ex.: 200%, 400%) nem checagem em diferentes larguras de tela.
+**Dica avançada:** use o editor de espaçamento junto com testes de **zoom e reflow** para garantir que a interface se mantém estável em diferentes preferências de leitura, e registre casos problemáticos como débito de acessibilidade no backlog.
+
+> **Comentário do grupo:**  
+> O *Editor de espaçamento de texto* ajudou a simular situações em que o usuário aumenta
+> o espaçamento entre linhas, parágrafos e letras, como previsto nos critérios de espaçamento
+> de texto da WCAG.  
+> Essa ferramenta evidenciou trechos em que o layout começava a “quebrar” ou ficar desconfortável
+> de ler quando o espaçamento era ajustado.  
+> A experiência mostrou que esse tipo de teste é importante e complementa outros, como zoom e reflow,
+> para garantir que o conteúdo continue legível em diferentes configurações de leitura.
+
 ### Simuladores de daltonismo (diversos) **[NOVO]**
 **Quando usar:** garantir que informações **não dependam de cor**.  
 **Como usar:** aplique simulação (Deuteranopia, Protanopia, Tritanopia) e observe **gráficos e status**.  
@@ -204,4 +248,9 @@ Esta página reúne **ferramentas práticas** para apoiar o time (Design, Conte�
 **Como usar:** Xcode → **Open Developer Tool** → **Accessibility Inspector**; aponte para o app e inspecione **rótulos, traits, foco**.  
 **Limitações:** requer **macOS + Xcode**; curva de aprendizado.  
 **Dica avançada:** automatize checagens com **UITests** focados em **traits** e **rotulagem**.
+
+> **Observação geral sobre as ferramentas:**  
+> As extensões foram importantes para conectar nossa análise a critérios formais (WCAG e NBR),
+> mas reforçamos que **nenhuma ferramenta automática ou semiautomática substitui testes manuais**,
+> como navegação por teclado, uso de leitor de tela e observação da experiência real de uso.
 
