@@ -32,7 +32,6 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 - **Histórico importante:** remoção do **SC 4.1.1 (Parsing)** na WCAG 2.2 — mantido só como boa prática (validar HTML/CSS).
 
 ---
-## Comparativo V1 -> V2
 
 ## Comparativo V1 x V2
 
@@ -66,9 +65,32 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 
 ## Fotos do grupo
 
-| ![Foto de Ana Elisa](images/0.png){ width="140" } | ![Foto de Marina Galdi](images/MarinaAgostiniGaldi.png){ width="140" } | ![Foto de Davi Camilo](images/image%20(2).png){ width="140" } | ![Foto de Euller Junior](images/image%20(1).png){ width="140" } | ![Foto de Kauã Vale](images/image.png){ width="140" } |
-| --- | --- | --- | --- | --- |
-| **Ana Elisa** | **Marina Galdi** | **Davi Camilo** | **Euller Junior** | **Kauã Vale** |
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1.5rem 0;">
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/0.png" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Ana Elisa</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/MarinaAgostiniGaldi.png" alt="Foto de Marina Galdi" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Marina Galdi</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(2).png" alt="Foto de Davi Camilo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Davi Camilo</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(1).png" alt="Foto de Euller Junior" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Euller Junior</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image.png" alt="Foto de Kauã Vale" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Kauã Vale</strong></figcaption>
+  </figure>
 
 ---
 
