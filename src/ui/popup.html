@@ -1,68 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WCAG Auditor</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>WCAG Auditor</h1>
-      <p class="subtitle">Auditoria de Acessibilidade Web</p>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WCAG Auditor</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>WCAG Auditor</h1>
+        <p class="subtitle">Auditoria de Acessibilidade Web</p>
+      </header>
 
-    <main>
-      <section class="actions">
-        <button id="run-audit" class="btn btn-primary">
-          <span class="icon">🔍</span>
-          Auditar Página
-        </button>
-        <button id="highlight-toggle" class="btn btn-secondary hidden" disabled>
-          <span class="icon">🎯</span>
-          <span id="highlight-text">Destacar Violações</span>
-        </button>
-      </section>
+      <main>
+        <section class="actions">
+          <button id="run-audit" class="btn btn-primary">
+            <span class="icon">🔍</span>
+            Auditar Página
+          </button>
+          <button
+            id="highlight-toggle"
+            class="btn btn-secondary hidden"
+            disabled
+          >
+            <span class="icon">🎯</span>
+            <span id="highlight-text">Destacar Violações</span>
+          </button>
+        </section>
 
-      <section id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Auditando página...</p>
-      </section>
+        <section id="loading" class="loading hidden">
+          <div class="spinner"></div>
+          <p>Auditando página...</p>
+        </section>
 
-      <section id="results" class="results hidden">
-        <div class="summary">
-          <h2>Resultado da Auditoria</h2>
-          <div class="stats">
-            <div class="stat stat-errors">
-              <span class="stat-value" id="error-count">0</span>
-              <span class="stat-label">Erros</span>
-            </div>
-            <div class="stat stat-warnings">
-              <span class="stat-value" id="warning-count">0</span>
-              <span class="stat-label">Avisos</span>
+        <section id="results" class="results hidden">
+          <!-- KPIs por nível WCAG -->
+          <div class="summary">
+            <h2>Resumo da Auditoria</h2>
+            <div class="wcag-levels">
+              <div class="wcag-level">
+                <div class="wcag-level-header">
+                  <span class="wcag-badge level-a">A</span>
+                  <span class="wcag-level-label">Essencial</span>
+                </div>
+                <div class="wcag-level-stats">
+                  <span class="level-errors" id="level-a-errors">0</span> erros
+                  ·
+                  <span class="level-warnings" id="level-a-warnings">0</span>
+                  alertas
+                </div>
+              </div>
+              <div class="wcag-level">
+                <div class="wcag-level-header">
+                  <span class="wcag-badge level-aa">AA</span>
+                  <span class="wcag-level-label">Recomendado</span>
+                </div>
+                <div class="wcag-level-stats">
+                  <span class="level-errors" id="level-aa-errors">0</span> erros
+                  ·
+                  <span class="level-warnings" id="level-aa-warnings">0</span>
+                  alertas
+                </div>
+              </div>
+              <div class="wcag-level">
+                <div class="wcag-level-header">
+                  <span class="wcag-badge level-aaa">AAA</span>
+                  <span class="wcag-level-label">Avançado</span>
+                </div>
+                <div class="wcag-level-stats">
+                  <span class="level-errors" id="level-aaa-errors">0</span>
+                  erros ·
+                  <span class="level-warnings" id="level-aaa-warnings">0</span>
+                  alertas
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div id="violations-list" class="violations-list">
-          <!-- Violações serão inseridas aqui dinamicamente -->
-        </div>
+          <!-- Filtros -->
+          <div class="filters">
+            <div class="filter-group">
+              <label class="filter-label">Filtrar por nível:</label>
+              <div class="filter-chips">
+                <button class="filter-chip active" data-level="A">A</button>
+                <button class="filter-chip active" data-level="AA">AA</button>
+                <button class="filter-chip active" data-level="AAA">AAA</button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="rule-filter"
+                >Filtrar por regra:</label
+              >
+              <select id="rule-filter" class="filter-select">
+                <option value="all">Todas as regras</option>
+              </select>
+            </div>
+          </div>
 
-        <div id="no-violations" class="no-violations hidden">
-          <span class="icon">✅</span>
-          <p>Nenhuma violação encontrada!</p>
-          <p class="note">A página passou em todas as verificações implementadas.</p>
-        </div>
-      </section>
-    </main>
+          <!-- Lista de violações (agrupadas por regra) -->
+          <div id="violations-list" class="violations-list">
+            <!-- Violações serão inseridas aqui dinamicamente -->
+          </div>
 
-    <footer>
-      <p class="version">v1.0.0</p>
-    </footer>
-  </div>
+          <div id="no-violations" class="no-violations hidden">
+            <span class="icon">✅</span>
+            <p>Nenhuma violação encontrada!</p>
+            <p class="note">
+              A página passou em todas as verificações implementadas.
+            </p>
+          </div>
 
-  <script src="../core/messaging.js"></script>
-  <script src="popup.js"></script>
-</body>
+          <div id="no-results-filter" class="no-violations hidden">
+            <span class="icon">🔍</span>
+            <p>Nenhum resultado com os filtros aplicados</p>
+            <p class="note">Tente ajustar os filtros acima.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p class="version">v1.0.0</p>
+      </footer>
+    </div>
+
+    <!-- Toast para feedback de copiar -->
+    <div id="toast" class="toast hidden">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message">Copiado!</span>
+    </div>
+
+    <script src="../core/messaging.js"></script>
+    <script src="popup.js"></script>
+  </body>
 </html>
