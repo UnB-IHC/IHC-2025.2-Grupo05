@@ -50,9 +50,9 @@ Esta extensão Chrome detecta **automaticamente** violações de acessibilidade 
 - **Google Chrome** versão 88+ ou navegador baseado em Chromium (Edge, Brave, Opera)
 - **Git** instalado (para clonar o repositório)
 
-### Instalação em 2 Passos
+### Instalação em 3 Passos
 
-#### 1 Clone o Repositório
+#### 1️⃣ Clone o Repositório
 
 ```bash
 git clone https://github.com/UnB-IHC/IHC-2025.2-Grupo05.git
@@ -60,7 +60,18 @@ cd IHC-2025.2-Grupo05
 git checkout extensao
 ```
 
-#### 2 Carregue no Chrome
+#### 2️⃣ (Opcional) Crie Ícones Temporários
+
+Para testes, você pode criar ícones simples ou usar placeholders:
+
+- Crie 3 arquivos PNG na pasta `/icons`:
+  - `icon16.png` (16×16 px)
+  - `icon48.png` (48×48 px)
+  - `icon128.png` (128×128 px)
+
+> Se você não tiver ícones, a extensão ainda funciona normalmente (apenas sem logo personalizado).
+
+#### 3️⃣ Carregue no Chrome
 
 1. Abra o Chrome e acesse: **`chrome://extensions/`**
 2. Ative o **“Modo do desenvolvedor”** (toggle no canto superior direito)
@@ -154,7 +165,7 @@ Todas as preferências são salvas usando **`chrome.storage.sync`** (quando disp
 
 ## 📊 Regras Implementadas
 
-### ✅ 10 Regras – WCAG 2.2 (Níveis A e AA)
+### ✅ 14 Regras – WCAG 2.2 (Níveis A e AA)
 
 | #   | ID                       | Regra                      | WCAG   | Nível | O que Verifica                                       |
 | --- | ------------------------ | -------------------------- | ------ | ----- | ---------------------------------------------------- |
@@ -167,7 +178,13 @@ Todas as preferências são salvas usando **`chrome.storage.sync`** (quando disp
 | 7   | `text-spacing`           | Espaçamento Ajustável      | 1.4.12 | AA    | CSS não impede ajuste de espaçamento                 |
 | 8   | `images-of-text`         | Evitar Imagens de Texto    | 1.4.5  | AA    | Detecta texto que deveria ser HTML/CSS               |
 | 9   | `alt-indicates-longdesc` | Alt Indica Descrição       | 1.1.1  | A     | Alt menciona onde está descrição longa               |
-| 10  | `icon-labels`            | Rótulos de Ícones          | 1.1.1  | A     | Ícones em botões/links têm rótulo claro              |
+| 10  | `icon-labels`            | Rótulos de Ícones              | 1.1.1  | A     | Ícones em botões/links têm rótulo claro                  |
+| 11  | `semantic-landmarks`     | Landmarks HTML5                | 1.3.1  | A     | Uso correto de `<header>`, `<nav>`, `<main>`, `<footer>` |
+| 12  | `links-vs-buttons`       | Links vs Botões                | 4.1.2  | A     | Links navegam (`<a>`), botões acionam (`<button>`)       |
+| 13  | `keyboard-operable`      | Operável por Teclado           | 2.1.1  | A     | Funcionalidades acessíveis via Tab/Enter/Space           |
+| 14  | `focus-trap`             | Sem Armadilha de Teclado       | 2.1.2  | A     | Modais/menus permitem saída via Tab/Esc                  |
+
+**Distribuição:** 11 regras nível A + 3 regras nível AA = **14 regras totais**
 
 ---
 
@@ -775,20 +792,6 @@ npm run build
 # Gerar pacote .zip para Chrome Web Store
 npm run package
 ```
-
----
-
-## Contribuidores
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/vitorfleonardo"><img style="border-radius: 50%;" src="https://github.com/vitorfleonardo.png" width="100px;" alt=""/><br /><sub><b>Vitor Feijó</b></sub></a><br />
-    <td align="center"><a href="https://github.com/CADU110"><img style="border-radius: 50%;" src="https://github.com/CADU110.png" width="100px;" alt=""/><br /><sub><b>Carlos Eduardo</b></sub></a><br />   
-    <td align="center"><a href="https://github.com/Angelicahaas"><img style="border-radius: 50%;" src="https://github.com/Angelicahaas.png" width="100px;" alt=""/><br /><sub><b>Harleny Angéllica</b></sub></a><br />   
-    <td align="center"><a href="https://github.com/Erick-ems "><img style="border-radius: 50%;" src="https://github.com/Erick-ems.png" width="100px;" alt=""/><br /><sub><b>Erick Santos</b></sub></a><br />
-    <td align="center"><a href="https://github.com/maykonjuso "><img style="border-radius: 50%;" src="https://github.com/maykonjuso.png" width="100px;" alt=""/><br /><sub><b>Maykon Júnio</b></sub></a><br />
-  </tr>
-</table>
 
 ---
 

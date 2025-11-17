@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "WCAG Auditor",
+  "version": "1.0.0",
+  "description": "Audita páginas web quanto à conformidade com WCAG 2.2",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_popup": "src/ui/popup.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content.js",
+        "src/rules/page-title.js",
+        "src/rules/lang-html.js",
+        "src/rules/img-alt.js",
+        "src/rules/link-name.js",
+        "src/rules/heading-order.js",
+        "src/rules/multiple-ways.js",
+        "src/rules/text-spacing.js",
+        "src/rules/images-of-text.js",
+        "src/rules/alt-indicates-longdesc.js",
+        "src/rules/icon-labels.js",
+        "src/rules/semantic-landmarks.js",
+        "src/rules/links-vs-buttons.js",
+        "src/rules/keyboard-operable.js",
+        "src/rules/focus-trap.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
