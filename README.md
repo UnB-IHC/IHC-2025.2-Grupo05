@@ -780,15 +780,35 @@ npm run package
 
 ## Contribuidores
 
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/vitorfleonardo"><img style="border-radius: 50%;" src="https://github.com/vitorfleonardo.png" width="100px;" alt=""/><br /><sub><b>Vitor Feijó</b></sub></a><br />
-    <td align="center"><a href="https://github.com/CADU110"><img style="border-radius: 50%;" src="https://github.com/CADU110.png" width="100px;" alt=""/><br /><sub><b>Carlos Eduardo</b></sub></a><br />   
-    <td align="center"><a href="https://github.com/Angelicahaas"><img style="border-radius: 50%;" src="https://github.com/Angelicahaas.png" width="100px;" alt=""/><br /><sub><b>Harleny Angéllica</b></sub></a><br />   
-    <td align="center"><a href="https://github.com/Erick-ems "><img style="border-radius: 50%;" src="https://github.com/Erick-ems.png" width="100px;" alt=""/><br /><sub><b>Erick Santos</b></sub></a><br />
-    <td align="center"><a href="https://github.com/maykonjuso "><img style="border-radius: 50%;" src="https://github.com/maykonjuso.png" width="100px;" alt=""/><br /><sub><b>Maykon Júnio</b></sub></a><br />
-  </tr>
-</table>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1.5rem 0;">
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/ana.jpeg" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Ana Elisa</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/MarinaAgostiniGaldi.png" alt="Foto de Marina Galdi" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Marina Galdi</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(2).png" alt="Foto de Davi Camilo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Davi Camilo</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(1).png" alt="Foto de Euller Junior" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Euller Junior</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image.png" alt="Foto de Kauã Vale" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Kauã Vale</strong></figcaption>
+  </figure>
+
+</div>
+
 
 ---
 

@@ -12,9 +12,34 @@ Extensão Chrome que identifica violações de acessibilidade em tempo real, aju
 
 ## 👥 Integrantes do Grupo 05
 
-- **Euller Henrique** – Motor de auditoria, regras base (lote 0) e overlay de destaque
-- **Ana Carolina** – UI/UX do popup, Options page e exportação de relatórios
-- **Kauã Vinícius** – Regras avançadas (lotes 1–3), testes e validação
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1.5rem 0;">
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/ana.jpeg" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Ana Elisa</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/MarinaAgostiniGaldi.png" alt="Foto de Marina Galdi" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Marina Galdi</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(2).png" alt="Foto de Davi Camilo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Davi Camilo</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image%20(1).png" alt="Foto de Euller Junior" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Euller Junior</strong></figcaption>
+  </figure>
+
+  <figure style="text-align: center; max-width: 140px;">
+    <img src="images/image.png" alt="Foto de Kauã Vale" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <figcaption><strong>Kauã Vale</strong></figcaption>
+  </figure>
+
+</div>
 
 **Instituição:** Universidade de Brasília (UnB)  
 **Disciplina:** Interação Humano-Computador (IHC) – 2025.2  
