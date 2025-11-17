@@ -38,7 +38,7 @@ Esta extensão Chrome detecta **automaticamente** violações de acessibilidade 
 - ✅ **Options Page** para:
   - habilitar/desabilitar regras individualmente
   - definir **nível alvo** (A, AA, AAA)
-- ✅ **10 regras implementadas** (níveis A, AA)
+- ✅ **14 regras implementadas** (níveis A, AA)
 - 🚧 Lotes de regras avançadas (formulário, foco, contraste) em expansão
 
 ---
