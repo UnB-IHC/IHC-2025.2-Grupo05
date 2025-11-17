@@ -68,7 +68,7 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1.5rem 0;">
 
   <figure style="text-align: center; max-width: 140px;">
-    <img src="images/0.png" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
+    <img src="images/ana.jpeg" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
     <figcaption><strong>Ana Elisa</strong></figcaption>
   </figure>
 
@@ -91,6 +91,8 @@ Nosso objetivo é oferecer **checklists práticos** e **guias rápidos** que aju
     <img src="images/image.png" alt="Foto de Kauã Vale" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
     <figcaption><strong>Kauã Vale</strong></figcaption>
   </figure>
+
+</div>
 
 ---
 
