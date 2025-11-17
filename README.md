@@ -780,8 +780,6 @@ npm run package
 
 ## Contribuidores
 
-## Integrantes
-
 | Ana Elisa | Marina Galdi | Davi Camilo | Euller Junior | Kauã Vale |
 |----------|--------------|-------------|---------------|-----------|
 | <img src="docs/images/ana.jpeg" width="140" height="140" alt="Foto de Ana Elisa" /> | <img src="docs/images/MarinaAgostiniGaldi.png" width="140" height="140" alt="Foto de Marina Galdi" /> | <img src="docs/images/image%20(2).png" width="140" height="140" alt="Foto de Davi Camilo" /> | <img src="docs/images/image%20(1).png" width="140" height="140" alt="Foto de Euller Junior" /> | <img src="docs/images/image.png" width="140" height="140" alt="Foto de Kauã Vale" /> |
