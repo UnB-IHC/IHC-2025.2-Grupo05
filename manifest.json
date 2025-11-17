@@ -3,11 +3,7 @@
   "name": "WCAG Auditor",
   "version": "1.0.0",
   "description": "Audita páginas web quanto à conformidade com WCAG 2.2",
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage"
-  ],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "src/ui/popup.html"
   },

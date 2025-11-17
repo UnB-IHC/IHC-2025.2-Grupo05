@@ -1,9 +1,23 @@
 /**
- * Popup Script - T7 Complete
- * Lógica completa: KPIs por nível WCAG, filtros, expand/collapse, copy to clipboard
+ * Popup Script - Com Options Inline + Export JSON/CSV
+ * KPIs, filtros, expand/collapse, clipboard + configurações + EXPORTAÇÃO
  */
 
-// Elementos do DOM
+import { exportJSON, exportCSV, getStatistics } from "../core/export.js";
+
+// ============================================
+// ELEMENTOS DO DOM
+// ============================================
+
+// Views
+const auditView = document.getElementById("audit-view");
+const optionsView = document.getElementById("options-view");
+
+// Botões de navegação
+const openOptionsBtn = document.getElementById("open-options");
+const backToAuditBtn = document.getElementById("back-to-audit");
+
+// Elementos da auditoria
 const runAuditBtn = document.getElementById("run-audit");
 const highlightToggleBtn = document.getElementById("highlight-toggle");
 const highlightText = document.getElementById("highlight-text");
@@ -15,6 +29,10 @@ const noResultsFilter = document.getElementById("no-results-filter");
 const ruleFilter = document.getElementById("rule-filter");
 const toast = document.getElementById("toast");
 
+// 🆕 Botões de exportação
+const exportJSONBtn = document.getElementById("export-json");
+const exportCSVBtn = document.getElementById("export-csv");
+
 // KPI elements
 const levelAErrors = document.getElementById("level-a-errors");
 const levelAWarnings = document.getElementById("level-a-warnings");
@@ -23,18 +41,153 @@ const levelAAWarnings = document.getElementById("level-aa-warnings");
 const levelAAAErrors = document.getElementById("level-aaa-errors");
 const levelAAAWarnings = document.getElementById("level-aaa-warnings");
 
-// Estado
+// Elementos de configurações
+const rulesList = document.getElementById("rules-list");
+const enableAllBtn = document.getElementById("enable-all");
+const disableAllBtn = document.getElementById("disable-all");
+const saveOptionsBtn = document.getElementById("save-options");
+const resetOptionsBtn = document.getElementById("reset-options");
+
+// ============================================
+// THEME SWITCHER
+// ============================================
+
+const themeCurrentBtn = document.querySelector(".theme-current");
+const themeOptions = document.querySelector(".theme-options");
+const themeOptionBtns = document.querySelectorAll(".theme-option");
+
+// ============================================
+// ESTADO GLOBAL
+// ============================================
+
 let highlightActive = false;
 let currentViolations = [];
-let allViolations = []; // Guarda todas as violações originais
+let allViolations = [];
 let activeFilters = {
   levels: ["A", "AA", "AAA"],
   rule: "all",
 };
 
-/**
- * Executa a auditoria na página atual
- */
+// 🆕 Metadados da auditoria
+let auditMetadata = {
+  url: "",
+  timestamp: null,
+  userAgent: navigator.userAgent,
+};
+
+let currentConfig = {
+  targetLevel: "AA",
+  enabledRules: {},
+};
+
+const availableRules = [
+  {
+    id: "page-title",
+    description: "Página deve ter título descritivo",
+    wcag: { id: "2.4.2", level: "A" },
+  },
+  {
+    id: "lang-html",
+    description: "HTML deve ter atributo lang",
+    wcag: { id: "3.1.1", level: "A" },
+  },
+  {
+    id: "img-alt",
+    description: "Imagens devem ter texto alternativo",
+    wcag: { id: "1.1.1", level: "A" },
+  },
+  {
+    id: "link-name",
+    description: "Links devem ter nome acessível",
+    wcag: { id: "2.4.4", level: "A" },
+  },
+  {
+    id: "heading-order",
+    description: "Hierarquia de headings deve ser lógica",
+    wcag: { id: "1.3.1", level: "A" },
+  },
+  {
+    id: "label-missing",
+    description: "Inputs devem ter labels associados",
+    wcag: { id: "1.3.1", level: "A" },
+  },
+  {
+    id: "empty-heading",
+    description: "Headings não devem estar vazios",
+    wcag: { id: "2.4.6", level: "AA" },
+  },
+  {
+    id: "link-empty",
+    description: "Links não devem estar vazios",
+    wcag: { id: "2.4.4", level: "A" },
+  },
+  {
+    id: "aria-required",
+    description: "Elementos interativos devem ter ARIA adequado",
+    wcag: { id: "4.1.2", level: "A" },
+  },
+  {
+    id: "multiple-ways",
+    description: "Múltiplas formas de navegação",
+    wcag: { id: "2.4.5", level: "AA" },
+  },
+  {
+    id: "text-spacing",
+    description: "Espaçamento de texto adequado",
+    wcag: { id: "1.4.12", level: "AA" },
+  },
+  {
+    id: "images-of-text",
+    description: "Evitar imagens de texto",
+    wcag: { id: "1.4.5", level: "AA" },
+  },
+  {
+    id: "alt-indicates-longdesc",
+    description: "Alt deve indicar descrição longa",
+    wcag: { id: "1.1.1", level: "A" },
+  },
+  {
+    id: "icon-labels",
+    description: "Ícones devem ter labels",
+    wcag: { id: "1.1.1", level: "A" },
+  },
+];
+
+// ============================================
+// NAVEGAÇÃO ENTRE VIEWS
+// ============================================
+
+openOptionsBtn.addEventListener("click", () => {
+  auditView.classList.add("hidden");
+  optionsView.classList.remove("hidden");
+  loadOptionsConfig();
+});
+
+backToAuditBtn.addEventListener("click", async () => {
+  optionsView.classList.add("hidden");
+  auditView.classList.remove("hidden");
+
+  console.log("[Popup] Voltando das configurações, rodando auditoria...");
+  await runAudit();
+});
+
+// ============================================
+// AUTO-RUN AUDIT ON POPUP OPEN
+// ============================================
+
+(async function autoRunAudit() {
+  try {
+    console.log("[Popup] Executando auditoria automática...");
+    await runAudit();
+  } catch (error) {
+    console.error("[Popup] Erro na auditoria automática:", error);
+  }
+})();
+
+// ============================================
+// AUDITORIA
+// ============================================
+
 async function runAudit() {
   try {
     loadingSection.classList.remove("hidden");
@@ -43,8 +196,42 @@ async function runAudit() {
 
     console.log("[Popup] Solicitando auditoria...");
 
-    const response = await window.messaging.requestAudit();
+    const stored = await chrome.storage.sync.get("wcagConfig");
+    const config = stored.wcagConfig || { targetLevel: "AA", enabledRules: {} };
+    console.log("[Popup] 📋 Config carregada:", config);
 
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+
+    if (!tab || !tab.id) {
+      showError("Não foi possível identificar a aba ativa");
+      return;
+    }
+
+    if (
+      tab.url.startsWith("chrome://") ||
+      tab.url.startsWith("chrome-extension://") ||
+      tab.url.startsWith("edge://") ||
+      tab.url.startsWith("about:")
+    ) {
+      showError(
+        "❌ Não é possível auditar páginas internas do navegador.\n\nTente em uma página web normal (http:// ou https://)"
+      );
+      return;
+    }
+
+    // 🆕 Salva metadados da auditoria
+    auditMetadata = {
+      url: tab.url,
+      title: tab.title,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      targetLevel: config.targetLevel,
+    };
+
+    const response = await window.messaging.requestAudit(config);
     console.log("[Popup] Resposta recebida:", response);
 
     if (response && response.success) {
@@ -54,19 +241,16 @@ async function runAudit() {
       allViolations = response.violations || [];
       currentViolations = [...allViolations];
 
-      // Popula filtro de regras
       populateRuleFilter(allViolations);
-
-      // Reseta filtros
       resetFilters();
-
-      // Exibe resultados
       displayResults(currentViolations);
 
       if (currentViolations.length > 0) {
-        highlightToggleBtn.classList.remove("hidden");
         highlightToggleBtn.disabled = false;
       }
+
+      // 🆕 Habilita botões de export
+      updateExportButtons();
     } else {
       showError(
         "Erro ao executar auditoria: " +
@@ -75,16 +259,23 @@ async function runAudit() {
     }
   } catch (error) {
     console.error("[Popup] Erro:", error);
-    showError("Erro ao comunicar com a página: " + error.message);
+
+    if (
+      error.message &&
+      error.message.includes("Receiving end does not exist")
+    ) {
+      showError(
+        "⚠️ Content script não carregado.\n\n📍 Solução: Recarregue a página (F5 ou Ctrl+R) e tente novamente.\n\n💡 Se o problema persistir, recarregue a extensão em chrome://extensions/"
+      );
+    } else {
+      showError("Erro ao comunicar com a página: " + error.message);
+    }
   } finally {
     loadingSection.classList.add("hidden");
     runAuditBtn.disabled = false;
   }
 }
 
-/**
- * Exibe os resultados da auditoria
- */
 function displayResults(violations) {
   resultsSection.classList.remove("hidden");
 
@@ -99,17 +290,10 @@ function displayResults(violations) {
 
   noViolations.classList.add("hidden");
   noResultsFilter.classList.add("hidden");
-
-  // Atualiza KPIs
   updateKPIs(violations);
-
-  // Renderiza violações agrupadas
   renderViolationsGrouped(violations);
 }
 
-/**
- * Atualiza KPIs por nível WCAG
- */
 function updateKPIs(violations) {
   const stats = {
     A: { errors: 0, warnings: 0 },
@@ -128,7 +312,6 @@ function updateKPIs(violations) {
     }
   });
 
-  // Atualiza DOM
   levelAErrors.textContent = stats.A.errors;
   levelAWarnings.textContent = stats.A.warnings;
   levelAAErrors.textContent = stats.AA.errors;
@@ -137,15 +320,10 @@ function updateKPIs(violations) {
   levelAAAWarnings.textContent = stats.AAA.warnings;
 }
 
-/**
- * Popula o select de filtro de regras
- */
 function populateRuleFilter(violations) {
-  // Extrai regras únicas
   const rules = new Set();
   violations.forEach((v) => rules.add(v.ruleId));
 
-  // Limpa e popula select
   ruleFilter.innerHTML = '<option value="all">Todas as regras</option>';
 
   Array.from(rules)
@@ -158,9 +336,6 @@ function populateRuleFilter(violations) {
     });
 }
 
-/**
- * Renderiza violações agrupadas por regra com expand/collapse
- */
 function renderViolationsGrouped(violations) {
   violationsList.innerHTML = "";
 
@@ -169,25 +344,19 @@ function renderViolationsGrouped(violations) {
     return;
   }
 
-  // Agrupa por ruleId
   const grouped = {};
   violations.forEach((violation) => {
     if (!grouped[violation.ruleId]) {
-      grouped[violation.ruleId] = {
-        ...violation,
-        allNodes: [],
-      };
+      grouped[violation.ruleId] = { ...violation, allNodes: [] };
     }
     grouped[violation.ruleId].allNodes.push(...violation.nodes);
   });
 
-  // Renderiza cada grupo
-  Object.values(grouped).forEach((violation, index) => {
+  Object.values(grouped).forEach((violation) => {
     const groupEl = document.createElement("div");
     groupEl.className = "violation-group";
     groupEl.dataset.ruleId = violation.ruleId;
 
-    // Header do grupo (clicável)
     const headerEl = document.createElement("div");
     headerEl.className = "violation-group-header";
     headerEl.innerHTML = `
@@ -202,18 +371,16 @@ function renderViolationsGrouped(violations) {
       </div>
     `;
 
-    // Toggle expand/collapse
     headerEl.addEventListener("click", () => {
       groupEl.classList.toggle("expanded");
     });
 
     groupEl.appendChild(headerEl);
 
-    // Nós do grupo
     const nodesEl = document.createElement("div");
     nodesEl.className = "violation-nodes";
 
-    violation.allNodes.forEach((node, nodeIndex) => {
+    violation.allNodes.forEach((node) => {
       const nodeEl = document.createElement("div");
       nodeEl.className = "violation-node";
 
@@ -244,15 +411,10 @@ function renderViolationsGrouped(violations) {
     violationsList.appendChild(groupEl);
   });
 
-  // Adiciona event listeners para botões de copiar
   setupCopyButtons();
 }
 
-/**
- * Configura event listeners dos botões de copiar
- */
 function setupCopyButtons() {
-  // Copiar seletor
   document.querySelectorAll(".copy-selector").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -261,7 +423,6 @@ function setupCopyButtons() {
     });
   });
 
-  // Copiar snippet
   document.querySelectorAll(".copy-snippet").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -271,9 +432,6 @@ function setupCopyButtons() {
   });
 }
 
-/**
- * Copia texto para clipboard e mostra toast
- */
 async function copyToClipboard(text, message = "Copiado!") {
   try {
     await navigator.clipboard.writeText(text);
@@ -284,32 +442,22 @@ async function copyToClipboard(text, message = "Copiado!") {
   }
 }
 
-/**
- * Mostra toast de feedback
- */
 function showToast(message) {
   const toastMessage = toast.querySelector(".toast-message");
   toastMessage.textContent = message;
-
   toast.classList.remove("hidden");
-
   setTimeout(() => {
     toast.classList.add("hidden");
   }, 2000);
 }
 
-/**
- * Aplica filtros às violações
- */
 function applyFilters() {
   let filtered = [...allViolations];
 
-  // Filtro por nível WCAG
   filtered = filtered.filter((v) =>
     activeFilters.levels.includes(v.wcag.level)
   );
 
-  // Filtro por regra
   if (activeFilters.rule !== "all") {
     filtered = filtered.filter((v) => v.ruleId === activeFilters.rule);
   }
@@ -318,16 +466,12 @@ function applyFilters() {
   displayResults(filtered);
 }
 
-/**
- * Reseta filtros para estado inicial
- */
 function resetFilters() {
   activeFilters = {
     levels: ["A", "AA", "AAA"],
     rule: "all",
   };
 
-  // Atualiza UI dos chips
   document.querySelectorAll(".filter-chip").forEach((chip) => {
     chip.classList.add("active");
   });
@@ -335,15 +479,12 @@ function resetFilters() {
   ruleFilter.value = "all";
 }
 
-/**
- * Alterna o destaque de violações na página
- */
 async function toggleHighlight() {
   try {
     if (highlightActive) {
       await window.messaging.requestHighlight([]);
       highlightActive = false;
-      highlightText.textContent = "Destacar Violações";
+      highlightText.textContent = "Destacar";
       highlightToggleBtn.classList.remove("active");
     } else {
       const allNodes = [];
@@ -359,7 +500,7 @@ async function toggleHighlight() {
       if (allNodes.length > 0) {
         await window.messaging.requestHighlight(allNodes);
         highlightActive = true;
-        highlightText.textContent = "Ocultar Destaques";
+        highlightText.textContent = "Ocultar";
         highlightToggleBtn.classList.add("active");
       }
     }
@@ -369,46 +510,256 @@ async function toggleHighlight() {
   }
 }
 
-/**
- * Exibe mensagem de erro
- */
 function showError(message) {
   resultsSection.classList.remove("hidden");
   noViolations.classList.add("hidden");
+
+  const messageWithBreaks = escapeHtml(message).replace(/\n/g, "<br>");
+
   violationsList.innerHTML = `
-    <div class="error-message" style="text-align: center; padding: 24px; color: var(--error-color);">
+    <div class="error-message" style="text-align: center; padding: 24px; color: var(--error-color); line-height: 1.6;">
       <span style="font-size: 36px; display: block; margin-bottom: 12px;">⚠️</span>
-      <p>${escapeHtml(message)}</p>
+      <p style="white-space: pre-line;">${messageWithBreaks}</p>
     </div>
   `;
 }
 
-/**
- * Escapa HTML para prevenir XSS
- */
 function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
 }
 
-// Event Listeners
+// ============================================
+// 🆕 EXPORT FUNCTIONS
+// ============================================
 
-// Botão de auditoria
+function updateExportButtons() {
+  const hasViolations = allViolations.length > 0;
+  exportJSONBtn.disabled = !hasViolations;
+  exportCSVBtn.disabled = !hasViolations;
+}
+
+function handleExportJSON() {
+  if (allViolations.length === 0) {
+    showToast("⚠️ Nenhum resultado para exportar");
+    return;
+  }
+
+  try {
+    // Converte o formato de violações para o formato esperado pelo export
+    const resultsForExport = convertViolationsToExportFormat(allViolations);
+
+    exportJSON(resultsForExport, auditMetadata);
+    showToast("✅ JSON exportado com sucesso!");
+    console.log("[Export] JSON exportado:", resultsForExport.length, "issues");
+  } catch (error) {
+    console.error("[Export] Erro ao exportar JSON:", error);
+    showToast("❌ Erro ao exportar JSON");
+  }
+}
+
+function handleExportCSV() {
+  if (allViolations.length === 0) {
+    showToast("⚠️ Nenhum resultado para exportar");
+    return;
+  }
+
+  try {
+    const resultsForExport = convertViolationsToExportFormat(allViolations);
+
+    exportCSV(resultsForExport);
+    showToast("✅ CSV exportado com sucesso!");
+    console.log("[Export] CSV exportado:", resultsForExport.length, "issues");
+  } catch (error) {
+    console.error("[Export] Erro ao exportar CSV:", error);
+    showToast("❌ Erro ao exportar CSV");
+  }
+}
+
+/**
+ * Converte o formato de violações agrupadas para o formato flat esperado pelo export
+ */
+function convertViolationsToExportFormat(violations) {
+  const map = new Map();
+
+  violations.forEach((violation) => {
+    violation.nodes.forEach((node) => {
+      const key = `${violation.ruleId}|||${node.selector}`;
+
+      if (!map.has(key)) {
+        map.set(key, {
+          rule: violation.ruleId,
+          description: violation.description,
+          wcag: `${violation.wcag.id} (${violation.wcag.level})`,
+          level: violation.wcag.level,
+          severity: violation.severity,
+          selector: node.selector,
+          snippet: node.snippet,
+          occurrences: 1,
+          message: violation.description,
+          helpUrl:
+            node.helpUrl ||
+            `https://www.w3.org/WAI/WCAG21/Understanding/${violation.wcag.id}`,
+        });
+      } else {
+        map.get(key).occurrences++;
+      }
+    });
+  });
+
+  return Array.from(map.values());
+}
+
+// ============================================
+// OPTIONS (dentro do popup)
+// ============================================
+
+async function loadOptionsConfig() {
+  try {
+    const stored = await chrome.storage.sync.get("wcagConfig");
+
+    if (stored.wcagConfig) {
+      currentConfig = stored.wcagConfig;
+    } else {
+      currentConfig = { targetLevel: "AA", enabledRules: {} };
+    }
+
+    console.log("[Popup Options] Config carregada:", currentConfig);
+    updateOptionsUI();
+  } catch (error) {
+    console.error("[Popup Options] Erro ao carregar:", error);
+  }
+}
+
+function updateOptionsUI() {
+  const targetRadio = document.querySelector(
+    `input[name="target-level"][value="${currentConfig.targetLevel}"]`
+  );
+  if (targetRadio) {
+    targetRadio.checked = true;
+  }
+
+  renderRulesListInline();
+}
+
+function renderRulesListInline() {
+  rulesList.innerHTML = "";
+
+  const sorted = [...availableRules].sort((a, b) => {
+    const levelOrder = { A: 1, AA: 2, AAA: 3 };
+    const levelDiff = levelOrder[a.wcag.level] - levelOrder[b.wcag.level];
+    if (levelDiff !== 0) return levelDiff;
+    return a.id.localeCompare(b.id);
+  });
+
+  sorted.forEach((rule) => {
+    const isEnabled = currentConfig.enabledRules[rule.id] !== false;
+
+    const ruleItem = document.createElement("label");
+    ruleItem.className = "rule-item";
+    ruleItem.innerHTML = `
+      <div class="rule-info">
+        <div class="rule-name">${rule.description}</div>
+        <div class="rule-meta">
+          <span class="rule-id">${rule.id}</span>
+          <span class="wcag-tag">WCAG ${rule.wcag.id} (${
+      rule.wcag.level
+    })</span>
+        </div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" class="rule-toggle" data-rule-id="${rule.id}" ${
+      isEnabled ? "checked" : ""
+    } />
+        <span class="toggle-slider"></span>
+      </label>
+    `;
+
+    rulesList.appendChild(ruleItem);
+  });
+}
+
+async function saveOptionsInline() {
+  try {
+    saveOptionsBtn.disabled = true;
+
+    const targetLevel = document.querySelector(
+      'input[name="target-level"]:checked'
+    ).value;
+
+    const enabledRules = {};
+    document.querySelectorAll(".rule-toggle").forEach((checkbox) => {
+      const ruleId = checkbox.dataset.ruleId;
+      enabledRules[ruleId] = checkbox.checked;
+    });
+
+    currentConfig = { targetLevel, enabledRules };
+
+    await chrome.storage.sync.set({ wcagConfig: currentConfig });
+
+    console.log("[Popup Options] Config salva:", currentConfig);
+    showToast("✅ Configurações salvas!");
+
+    setTimeout(async () => {
+      optionsView.classList.add("hidden");
+      auditView.classList.remove("hidden");
+
+      console.log("[Popup] Configurações salvas, rodando auditoria...");
+      await runAudit();
+    }, 500);
+  } catch (error) {
+    console.error("[Popup Options] Erro ao salvar:", error);
+    showToast("❌ Erro ao salvar!");
+  } finally {
+    saveOptionsBtn.disabled = false;
+  }
+}
+
+async function resetOptionsInline() {
+  if (confirm("Deseja restaurar as configurações padrão?")) {
+    currentConfig = { targetLevel: "AA", enabledRules: {} };
+
+    availableRules.forEach((rule) => {
+      currentConfig.enabledRules[rule.id] = true;
+    });
+
+    await chrome.storage.sync.set({ wcagConfig: currentConfig });
+    updateOptionsUI();
+    showToast("🔄 Configurações restauradas!");
+  }
+}
+
+function enableAllRulesInline() {
+  document.querySelectorAll(".rule-toggle").forEach((toggle) => {
+    toggle.checked = true;
+  });
+}
+
+function disableAllRulesInline() {
+  document.querySelectorAll(".rule-toggle").forEach((toggle) => {
+    toggle.checked = false;
+  });
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
+
+// Auditoria
 runAuditBtn.addEventListener("click", runAudit);
-
-// Botão de destaque
 highlightToggleBtn.addEventListener("click", toggleHighlight);
 
-// Filtros de nível WCAG (chips)
+// 🆕 Export
+exportJSONBtn.addEventListener("click", handleExportJSON);
+exportCSVBtn.addEventListener("click", handleExportCSV);
+
+// Filtros
 document.querySelectorAll(".filter-chip").forEach((chip) => {
   chip.addEventListener("click", () => {
     const level = chip.dataset.level;
-
-    // Toggle chip
     chip.classList.toggle("active");
 
-    // Atualiza filtros ativos
     if (chip.classList.contains("active")) {
       if (!activeFilters.levels.includes(level)) {
         activeFilters.levels.push(level);
@@ -421,18 +772,63 @@ document.querySelectorAll(".filter-chip").forEach((chip) => {
   });
 });
 
-// Filtro de regra (select)
 ruleFilter.addEventListener("change", (e) => {
   activeFilters.rule = e.target.value;
   applyFilters();
 });
 
-// Desabilita destaque ao fechar popup
+// Options
+saveOptionsBtn.addEventListener("click", saveOptionsInline);
+resetOptionsBtn.addEventListener("click", resetOptionsInline);
+enableAllBtn.addEventListener("click", enableAllRulesInline);
+disableAllBtn.addEventListener("click", disableAllRulesInline);
+
+// Cleanup
 window.addEventListener("unload", () => {
   if (highlightActive) {
     window.messaging.requestHighlight([]).catch(() => {});
   }
 });
 
-// Log de inicialização
-console.log("[Popup] Popup T7 carregado - KPIs, filtros e clipboard ready! ✨");
+// ============================================
+// TROCA DE TEMA - BOTÃOZINHO 🎨
+// ============================================
+
+// Abre / fecha o menu de temas
+themeCurrentBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  themeOptions.classList.toggle("open");
+});
+
+// Clicar fora fecha o menu
+document.addEventListener("click", () => {
+  themeOptions.classList.remove("open");
+});
+
+// Aplicar tema
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+
+  // Atualiza visual do botão principal
+  themeCurrentBtn.style.background = "var(--primary-color)";
+
+  // Salva no storage
+  chrome.storage.sync.set({ theme });
+}
+
+// Clicar numa opção aplica e fecha
+themeOptionBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const theme = btn.dataset.theme;
+    applyTheme(theme);
+    themeOptions.classList.remove("open");
+  });
+});
+
+// Carregar tema salvo ao abrir popup
+chrome.storage.sync.get(["theme"], ({ theme }) => {
+  const selected = theme || "pink";
+  applyTheme(selected);
+});
+
+console.log("[Popup] Popup carregado com options inline + export! ✨📊");
