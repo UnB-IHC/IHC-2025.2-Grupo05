@@ -780,35 +780,11 @@ npm run package
 
 ## Contribuidores
 
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1.5rem 0;">
+## Integrantes
 
-  <figure style="text-align: center; max-width: 140px;">
-    <img src="images/ana.jpeg" alt="Foto de Ana Elisa" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
-    <figcaption><strong>Ana Elisa</strong></figcaption>
-  </figure>
-
-  <figure style="text-align: center; max-width: 140px;">
-    <img src="images/MarinaAgostiniGaldi.png" alt="Foto de Marina Galdi" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
-    <figcaption><strong>Marina Galdi</strong></figcaption>
-  </figure>
-
-  <figure style="text-align: center; max-width: 140px;">
-    <img src="images/image%20(2).png" alt="Foto de Davi Camilo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
-    <figcaption><strong>Davi Camilo</strong></figcaption>
-  </figure>
-
-  <figure style="text-align: center; max-width: 140px;">
-    <img src="images/image%20(1).png" alt="Foto de Euller Junior" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
-    <figcaption><strong>Euller Junior</strong></figcaption>
-  </figure>
-
-  <figure style="text-align: center; max-width: 140px;">
-    <img src="images/image.png" alt="Foto de Kauã Vale" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 0.5rem;" />
-    <figcaption><strong>Kauã Vale</strong></figcaption>
-  </figure>
-
-</div>
-
+| Ana Elisa | Marina Galdi | Davi Camilo | Euller Junior | Kauã Vale |
+|----------|--------------|-------------|---------------|-----------|
+| <img src="docs/images/ana.jpeg" width="140" height="140" alt="Foto de Ana Elisa" /> | <img src="docs/images/MarinaAgostiniGaldi.png" width="140" height="140" alt="Foto de Marina Galdi" /> | <img src="docs/images/image%20(2).png" width="140" height="140" alt="Foto de Davi Camilo" /> | <img src="docs/images/image%20(1).png" width="140" height="140" alt="Foto de Euller Junior" /> | <img src="docs/images/image.png" width="140" height="140" alt="Foto de Kauã Vale" /> |
 
 ---
 
