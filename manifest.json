@@ -24,7 +24,11 @@
         "src/rules/text-spacing.js",
         "src/rules/images-of-text.js",
         "src/rules/alt-indicates-longdesc.js",
-        "src/rules/icon-labels.js"
+        "src/rules/icon-labels.js",
+        "src/rules/semantic-landmarks.js",
+        "src/rules/links-vs-buttons.js",
+        "src/rules/keyboard-operable.js",
+        "src/rules/focus-trap.js"
       ],
       "run_at": "document_idle"
     }
