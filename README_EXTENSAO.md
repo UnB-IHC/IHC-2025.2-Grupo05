@@ -38,7 +38,7 @@ Esta extensão Chrome detecta **automaticamente** violações de acessibilidade 
 - ✅ **Options Page** para:
   - habilitar/desabilitar regras individualmente
   - definir **nível alvo** (A, AA, AAA)
-- ✅ **10 regras implementadas** (níveis A, AA)
+- ✅ **14 regras implementadas** (níveis A, AA)
 - 🚧 Lotes de regras avançadas (formulário, foco, contraste) em expansão
 
 ---
@@ -165,7 +165,7 @@ Todas as preferências são salvas usando **`chrome.storage.sync`** (quando disp
 
 ## 📊 Regras Implementadas
 
-### ✅ 10 Regras – WCAG 2.2 (Níveis A e AA)
+### ✅ 14 Regras – WCAG 2.2 (Níveis A e AA)
 
 | #   | ID                       | Regra                      | WCAG   | Nível | O que Verifica                                       |
 | --- | ------------------------ | -------------------------- | ------ | ----- | ---------------------------------------------------- |
@@ -178,7 +178,13 @@ Todas as preferências são salvas usando **`chrome.storage.sync`** (quando disp
 | 7   | `text-spacing`           | Espaçamento Ajustável      | 1.4.12 | AA    | CSS não impede ajuste de espaçamento                 |
 | 8   | `images-of-text`         | Evitar Imagens de Texto    | 1.4.5  | AA    | Detecta texto que deveria ser HTML/CSS               |
 | 9   | `alt-indicates-longdesc` | Alt Indica Descrição       | 1.1.1  | A     | Alt menciona onde está descrição longa               |
-| 10  | `icon-labels`            | Rótulos de Ícones          | 1.1.1  | A     | Ícones em botões/links têm rótulo claro              |
+| 10  | `icon-labels`            | Rótulos de Ícones              | 1.1.1  | A     | Ícones em botões/links têm rótulo claro                  |
+| 11  | `semantic-landmarks`     | Landmarks HTML5                | 1.3.1  | A     | Uso correto de `<header>`, `<nav>`, `<main>`, `<footer>` |
+| 12  | `links-vs-buttons`       | Links vs Botões                | 4.1.2  | A     | Links navegam (`<a>`), botões acionam (`<button>`)       |
+| 13  | `keyboard-operable`      | Operável por Teclado           | 2.1.1  | A     | Funcionalidades acessíveis via Tab/Enter/Space           |
+| 14  | `focus-trap`             | Sem Armadilha de Teclado       | 2.1.2  | A     | Modais/menus permitem saída via Tab/Esc                  |
+
+**Distribuição:** 11 regras nível A + 3 regras nível AA = **14 regras totais**
 
 ---
 

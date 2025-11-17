@@ -107,26 +107,6 @@ const availableRules = [
     wcag: { id: "1.3.1", level: "A" },
   },
   {
-    id: "label-missing",
-    description: "Inputs devem ter labels associados",
-    wcag: { id: "1.3.1", level: "A" },
-  },
-  {
-    id: "empty-heading",
-    description: "Headings não devem estar vazios",
-    wcag: { id: "2.4.6", level: "AA" },
-  },
-  {
-    id: "link-empty",
-    description: "Links não devem estar vazios",
-    wcag: { id: "2.4.4", level: "A" },
-  },
-  {
-    id: "aria-required",
-    description: "Elementos interativos devem ter ARIA adequado",
-    wcag: { id: "4.1.2", level: "A" },
-  },
-  {
     id: "multiple-ways",
     description: "Múltiplas formas de navegação",
     wcag: { id: "2.4.5", level: "AA" },
@@ -150,6 +130,26 @@ const availableRules = [
     id: "icon-labels",
     description: "Ícones devem ter labels",
     wcag: { id: "1.1.1", level: "A" },
+  },
+  {
+    id: "semantic-landmarks",
+    description: "Uso correto de landmarks HTML5",
+    wcag: { id: "1.3.1", level: "A" },
+  },
+  {
+    id: "links-vs-buttons",
+    description: "Links devem navegar, botões devem executar ações",
+    wcag: { id: "4.1.2", level: "A" },
+  },
+  {
+    id: "keyboard-operable",
+    description: "Funcionalidades operáveis por teclado",
+    wcag: { id: "2.1.1", level: "A" },
+  },
+  {
+    id: "focus-trap",
+    description: "Sem armadilha de teclado em modais/menus",
+    wcag: { id: "2.1.2", level: "A" },
   },
 ];
 
