@@ -138,8 +138,7 @@ A interface do popup é organizada em:
    - cabeçalho da regra (nome, WCAG, severidade, ocorrências)
    - lista de nós com seletor, snippet e botões de _copy_
 
-```md
-![Tela inicial da extensaõ](docs/prints/popup-main.png)
+![Tela inicial da extensão](docs/prints/popup-main.png)
 ![Funcionalidades](docs/prints/features.png)
 ![Resumo da auditoria](docs/prints/summary.png)
 ![Funcionalidade de exportar resultado](docs/prints/summary.png)
@@ -148,7 +147,6 @@ A interface do popup é organizada em:
 ![Funcionalidade de destacar na página](docs/prints/highlight.png)
 ![Tela de configurações](docs/prints/config.png)
 ![Config por regra](docs/prints/rules-config.png)
-```
 
 ### Options Page
 
